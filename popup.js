@@ -1,83 +1,141 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
-/**
- * Global variable containing the query we'd like to pass to Flickr. In this
- * case, kittens!
- *
- * @type {string}
- */
-var QUERY = 'kittens';
+function showHist(hist_item) {
+                 
+        document.write( "<hr>" + "<p>" + " H i s t o r y I t e m." + "</p>" + "<hr>");
+    
+            document.write("<li>" + hist_item.title + "</li>");
+            
+            document.write("<ul>");
+            document.write("<li>" + hist_item.id + "</li>");
+            document.write("<li>" + hist_item.url + "</li>");
+            document.write("<li>" + hist_item.visitCount + "</li>");
+            document.write("<li>" + hist_item.visitCount + "</li>");
+            document.write("</ul>");
+}
+      
+function showVisit(visit_items) {
+                 
+        document.write("<hr>" + "<p>" + "V i s i t   I t e m s." + "</p>" + "<hr>");
+        document.write("<ul>"); 
+        for(var i=0; i< visit_items.length; i++) {
+            
+            document.write("<li>" + visit_items[i].id + "</li>");
+            document.write("<ul>");
+            document.write("<li>" + visit_items[i].visitId + "</li>");
+            document.write("<li>" + visit_items[i].visitTime + "</li>");
+            document.write("<li>" + visit_items[i].referringVisitId + "</li>");
+            document.write("<li>" + visit_items[i].transition+ "</li>");
+            document.write("</ul>");
 
-var kittenGenerator = {
-  /**
-   * Flickr URL that will give us lots and lots of whatever we're looking for.
-   *
-   * See http://www.flickr.com/services/api/flickr.photos.search.html for
-   * details about the construction of this URL.
-   *
-   * @type {string}
-   * @private
-   */
-  searchOnFlickr_: 'https://secure.flickr.com/services/rest/?' +
-      'method=flickr.photos.search&' +
-      'api_key=90485e931f687a9b9c2a66bf58a3861a&' +
-      'text=' + encodeURIComponent(QUERY) + '&' +
-      'safe_search=1&' +
-      'content_type=1&' +
-      'sort=interestingness-desc&' +
-      'per_page=20',
+        }
+        document.write("</ul>");
+}
+  
+ 
+function show(rawNodes) {
+       
+   for(var i=0; i < rawNodes.length; i++){
+      showHist(rawNodes[i].HistoryItem);
+   }
+   
+   for(var j=0; j < rawNodes.length; j++){
+      showVisit(rawNodes[j].VisitItems);
+   }
+}  
 
-  /**
-   * Sends an XHR GET request to grab photos of lots and lots of kittens. The
-   * XHR's 'onload' event is hooks up to the 'showPhotos_' method.
-   *
-   * @public
-   */
-  requestKittens: function() {
-    var req = new XMLHttpRequest();
-    req.open("GET", this.searchOnFlickr_, true);
-    req.onload = this.showPhotos_.bind(this);
-    req.send(null);
-  },
 
-  /**
-   * Handle the 'onload' event of our kitten XHR request, generated in
-   * 'requestKittens', by generating 'img' elements, and stuffing them into
-   * the document for display.
-   *
-   * @param {ProgressEvent} e The XHR ProgressEvent.
-   * @private
-   */
-  showPhotos_: function (e) {
-    var kittens = e.target.responseXML.querySelectorAll('photo');
-    for (var i = 0; i < kittens.length; i++) {
-      var img = document.createElement('img');
-      img.src = this.constructKittenURL_(kittens[i]);
-      img.setAttribute('alt', kittens[i].getAttribute('title'));
-      document.body.appendChild(img);
-    }
-  },
+     
+      
+      
+function GetHistItems(text, startTime, endTime, maxResults) {
+   
+   var context = {histNodes: null};
+   
+   function forGet(hist_items) {
 
-  /**
-   * Given a photo, construct a URL using the method outlined at
-   * http://www.flickr.com/services/api/misc.urlKittenl
-   *
-   * @param {DOMElement} A kitten.
-   * @return {string} The kitten's URL.
-   * @private
-   */
-  constructKittenURL_: function (photo) {
-    return "http://farm" + photo.getAttribute("farm") +
-        ".static.flickr.com/" + photo.getAttribute("server") +
-        "/" + photo.getAttribute("id") +
-        "_" + photo.getAttribute("secret") +
-        "_s.jpg";
-  }
-};
+      context.histNodes = hist_items;
+      //3
 
-// Run our kitten generation script as soon as the document's DOM is ready.
-document.addEventListener('DOMContentLoaded', function () {
-  kittenGenerator.requestKittens();
-});
+   }
+   
+   //1
+   chrome.history.search({
+            'text': text,
+            'startTime': startTime,
+            'endTime': endTime,
+            'maxResults': maxResults       
+            },
+            forGet);
+   
+   //2 
+
+   alert("Are you ready get HistoryItems?");    // whithout this string  Get not work :( ignore getVisits return call first
+    
+   return context.histNodes;              
+}
+
+
+  
+function GetVisitItems(url) {
+   
+   var context = {visitNodes: null};
+   
+   function forGet(visit_items) {
+
+      context.visitNodes = visit_items;
+
+   }
+
+   chrome.history.getVisits({
+                              'url' :url 
+                            }
+                           , forGet);
+
+
+   alert("Are you ready get VisitItems?");     // whithout this string Get not work :( ignore getVisits return call first 
+        
+   return context.visitNodes;              
+}
+
+
+
+function createRawNode(histItem) {
+   
+   var rawNode = {
+   HistoryItem : histItem,
+   VisitItems : []
+   }
+   
+   var visItems = GetVisitItems(histItem.url);
+
+   rawNode.VisitItems = visItems;
+   
+   return rawNode;
+}
+
+       
+function Get(text, startTime, endTime, maxResults) {
+   
+   var rawNodes = [];
+   var histItems = GetHistItems(text, startTime, endTime, maxResults);
+   
+
+   for(var i=0; i < histItems.length; i++) {
+      
+      
+      rawNodes.push( createRawNode(histItems[i]) );
+   }
+        
+   return rawNodes;              
+}
+
+
+
+
+
+
+var rawNodes = Get('', 0, 10000000000000, 3);
+
+show(rawNodes);
+           
+
