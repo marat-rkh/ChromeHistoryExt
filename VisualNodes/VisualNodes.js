@@ -1,5 +1,5 @@
 "use strict";
-// Visual nodes
+
 function VisualNode () {
     this._drawBasic = function (cell, txt) {
         cell.innerHTML = txt;
@@ -35,24 +35,3 @@ function LinkNode() {
 
     var txt = "\\";
 }
-
-//Tree visualizer
-function TreeVisualizer () {
-    this.drawIn = function (tab, y0, x0, nodes) {
-        for (var i = 0; i < nodes.length; i++, y0++, x0++) {
-            var currentCell = tab.rows[y0].cells[x0];
-            nodes[i].drawIn(currentCell);
-        };
-    }
-}
-
-function drawSomeTree() {
-    var tab = document.getElementById('myTable');
-    var nodes = [new SimpleNode, new FoldedNode, new SimpleNode, new LinkNode, new SimpleNode];
-    var treeVisualizer = new TreeVisualizer();
-    treeVisualizer.drawIn(tab, 0, 0, nodes);
-}
-
-window.onload = function() {
-    drawSomeTree();
-};
