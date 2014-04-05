@@ -45,6 +45,7 @@ function SimpleNode(childrenList) {
     var txt = "node";
 
     //constructor
+    VisualNode.call(this, childrenList);
     this._setContent(txt);
     this._setChildren(childrenList);
 }
@@ -54,6 +55,7 @@ function FoldedNode(childrenList) {
     var txt = "...";
 
     //constructor
+    VisualNode.call(this, childrenList);
     this._setContent(txt);
     this._setChildren(childrenList);
 }
@@ -63,6 +65,7 @@ function LinkNode(childrenList) {
     var txt = "\\";
 
     //constructor
+    VisualNode.call(this, childrenList);
     this._setContent(txt);
     this._setChildren(childrenList);
 }
