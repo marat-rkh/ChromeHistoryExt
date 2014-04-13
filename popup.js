@@ -51,13 +51,6 @@ function GetHistItems(text, startTime, endTime, maxResults) {
    
    var context = {histNodes: null};
    
-   function forGet(hist_items) {
-
-      context.histNodes = hist_items;
-      //3
-
-   }
-   
    //1
    chrome.history.search({
             'text': text,
@@ -65,12 +58,16 @@ function GetHistItems(text, startTime, endTime, maxResults) {
             'endTime': endTime,
             'maxResults': maxResults       
             },
-            forGet);
+            function (hist_items) {
+               context.histNodes = hist_items;
+               document.write(" 1 ");
+            }
+   );
    
-   //2 
+   document.write(" 2 "); 
 
-   alert("Are you ready get HistoryItems?");    // whithout this string  Get not work :( ignore getVisits return call first
-    
+   alert("Are you ready get HistoryItems?");    // whithout this string GetHistItems not work :( ignore search
+   
    return context.histNodes;              
 }
 
@@ -89,10 +86,13 @@ function GetVisitItems(url) {
    chrome.history.getVisits({
                               'url' :url 
                             }
-                           , forGet);
+                           , function (visit_items) {
+                              context.visitNodes = visit_items;
+                            }
+   );
 
 
-   alert("Are you ready get VisitItems?");     // whithout this string Get not work :( ignore getVisits return call first 
+   alert("Are you ready get VisitItems?");     // whithout this string GetVisitItems not work :( ignore getVisits
         
    return context.visitNodes;              
 }
@@ -134,7 +134,7 @@ function Get(text, startTime, endTime, maxResults) {
 
 
 
-var rawNodes = Get('', 0, 10000000000000, 3);
+var rawNodes = Get('', 1396862370129, 10000000000000, 3);
 
 show(rawNodes);
            
