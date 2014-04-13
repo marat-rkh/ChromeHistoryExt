@@ -3,6 +3,7 @@
 function VisualNode () {
     // constructor
     var htmlNode = document.createElement('li');
+    htmlNode.className = "Node";
     htmlNode.appendChild(createContent());
     htmlNode.appendChild(createContainer());
 
@@ -25,17 +26,20 @@ function VisualNode () {
         }
     }
 
+    this._setCSSClassName = function (clsName) {
+        htmlNode.children[0].className += (" " + clsName);
+    }
+
     //private
     function createContent () {
-        return document.createElement('div');
+        var content = document.createElement('div');
+        content.className = "Content";
+        return content
     }
 
     function createContainer () {
-        return document.createElement('ul');
-    }
-
-    function container () {
-        return htmlNode.children[1];
+        var container = document.createElement('ul');
+        return container;
     }
 }
 
@@ -43,29 +47,23 @@ SimpleNode.prototype = new VisualNode();
 function SimpleNode(childrenList) {
     //private
     var txt = "node";
+    var cssClassName = "Simple"
 
     //constructor
     VisualNode.call(this, childrenList);
     this._setContent(txt);
     this._setChildren(childrenList);
+    this._setCSSClassName(cssClassName);
 }
 
 FoldedNode.prototype = new VisualNode();
 function FoldedNode(childrenList) {
     var txt = "...";
+    var cssClassName = "Folded"
 
     //constructor
     VisualNode.call(this, childrenList);
     this._setContent(txt);
     this._setChildren(childrenList);
-}
-
-LinkNode.prototype = new VisualNode();
-function LinkNode(childrenList) {
-    var txt = "\\";
-
-    //constructor
-    VisualNode.call(this, childrenList);
-    this._setContent(txt);
-    this._setChildren(childrenList);
+    this._setCSSClassName(cssClassName);
 }
