@@ -51,7 +51,7 @@ function GetHistItems(text, startTime, endTime, maxResults) {
    
    var context = {histNodes: null};
    
-   //1
+
    chrome.history.search({
             'text': text,
             'startTime': startTime,
@@ -60,11 +60,9 @@ function GetHistItems(text, startTime, endTime, maxResults) {
             },
             function (hist_items) {
                context.histNodes = hist_items;
-               document.write(" 1 ");
             }
    );
-   
-   document.write(" 2 "); 
+
 
    alert("Are you ready get HistoryItems?");    // whithout this string GetHistItems not work :( ignore search
    
@@ -80,7 +78,6 @@ function GetVisitItems(url) {
    function forGet(visit_items) {
 
       context.visitNodes = visit_items;
-
    }
 
    chrome.history.getVisits({
