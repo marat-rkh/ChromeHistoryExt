@@ -51,7 +51,6 @@ function GetHistItems(text, startTime, endTime, maxResults) {
    
    var context = {histNodes: null};
    
-
    chrome.history.search({
             'text': text,
             'startTime': startTime,
@@ -110,29 +109,55 @@ function createRawNode(histItem) {
    return rawNode;
 }
 
-       
+
+
+
+function compareVisitItems( vi1, vi2 ) {
+   
+   if( vi1.visitTime > vi2.visitTime) {
+      return 1;
+   }
+   else if(vi1.visitTime < vi2.visitTime) {
+      return -1;
+   }
+   else {
+      return 0;
+   }
+}
+            
 function Get(text, startTime, endTime, maxResults) {
    
    var rawNodes = [];
-   var histItems = GetHistItems(text, startTime, endTime, maxResults);
+   var allVisitItems = [];
    
+   var histItems = GetHistItems(text, startTime, endTime, maxResults);
+
 
    for(var i=0; i < histItems.length; i++) {
-      
-      
+            
       rawNodes.push( createRawNode(histItems[i]) );
    }
-        
-   return rawNodes;              
+   
+   for(var i=0; i < rawNodes.length; i++) {
+            
+         visitItems = rawNodes[i].VisitItems
+         for(var j=0; j < visitItems.length; j++) {
+            if( startTime <= visitItems[j].visitTime && visitItems[j].visitTime <= endTime ) {
+               allVisitItems.push( visitItems[j] )                  
+            } 
+         }
+   }
+   
+   allVisitItems.sort(compareVisitItems)
+           
+   return allVisitItems;              
 }
 
 
 
+var allVisitItems = Get('', 0, 10000000000000, 3);
 
-
-
-var rawNodes = Get('', 1396862370129, 10000000000000, 3);
-
-show(rawNodes);
+showVisit(allVisitItems);
+//show(rawNodes);
            
 
