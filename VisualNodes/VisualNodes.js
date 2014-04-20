@@ -1,15 +1,24 @@
 "use strict";
 
-function VisualNode () {
+function VisualNode (childrenList, isVisible) {
     // constructor
     var htmlNode = document.createElement('li');
-    htmlNode.className = "Node";
     htmlNode.appendChild(createContent());
-    htmlNode.appendChild(createContainer());
+    htmlNode.appendChild(createContainer(childrenList));
+    if(isVisible) {
+        makeVisible();
+    }
+    else {
+        makeInvisible();
+    }
 
     //public
     this.getHtml = function () {
         return htmlNode;
+    }
+
+    this.addChild = function (child) {
+        htmlNode.children[1].appendChild(child.getHtml());
     }
 
     //protected
@@ -17,16 +26,7 @@ function VisualNode () {
         return htmlNode.children[0].innerText = txt;
     }
 
-    this._setChildren = function(childrenList) {
-        if(typeof childrenList !== "undefined") {
-            for(var i = 0; i < childrenList.length; i++) {
-                var cld = childrenList[i].getHtml();
-                htmlNode.children[1].appendChild(cld);
-            }
-        }
-    }
-
-    this._setCSSClassName = function (clsName) {
+    this._addCSSClassName = function (clsName) {
         htmlNode.children[0].className += (" " + clsName);
     }
 
@@ -37,33 +37,45 @@ function VisualNode () {
         return content
     }
 
-    function createContainer () {
+    function createContainer (childrenList) {
         var container = document.createElement('ul');
+        if(typeof childrenList !== "undefined") {
+            for(var i = 0; i < childrenList.length; i++) {
+                var cld = childrenList[i].getHtml();
+                container.appendChild(cld);
+            }
+        }
         return container;
+    }
+
+    function makeVisible() {
+        htmlNode.children[0].className = "NodeContentVisible";
+        htmlNode.children[1].className = "ContainerShifted"
+    }
+
+    function makeInvisible() {
+        htmlNode.children[0].className = "NodeContentInvisible";
+        htmlNode.children[1].className = "ContainerNotShifted"
     }
 }
 
 SimpleNode.prototype = new VisualNode();
-function SimpleNode(childrenList) {
+SimpleNode.prototype.constructor = SimpleNode;
+function SimpleNode(childrenList, isVisible, content) {
     //private
     var txt = "node";
-    var cssClassName = "Simple"
 
     //constructor
-    VisualNode.call(this, childrenList);
-    this._setContent(txt);
-    this._setChildren(childrenList);
-    this._setCSSClassName(cssClassName);
+    VisualNode.call(this, childrenList, isVisible);
+    this._setContent(content);
 }
 
 FoldedNode.prototype = new VisualNode();
-function FoldedNode(childrenList) {
+SimpleNode.prototype.constructor = FoldedNode;
+function FoldedNode(childrenList, isVisible) {
     var txt = "...";
-    var cssClassName = "Folded"
 
     //constructor
-    VisualNode.call(this, childrenList);
+    VisualNode.call(this, childrenList, isVisible);
     this._setContent(txt);
-    this._setChildren(childrenList);
-    this._setCSSClassName(cssClassName);
 }
