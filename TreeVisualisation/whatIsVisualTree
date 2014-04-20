@@ -1,0 +1,12 @@
+<body>
+
+    <div>                             <!-- Events Handler -->
+        <ul>                          <!-- Tree container -->
+            <li>                      <!-- Node -->
+                <div></div>           <!-- Node's content -->
+                <ul></ul>             <!-- Subtree container -->
+            </li>
+        </ul>
+    </div>
+
+</body>
