@@ -1,0 +1,27 @@
+<style type="text/css">
+
+div { }
+
+ul li {
+    list-style-type: none;
+}
+
+.ContainerShifted {
+    margin-left: 40px;
+    padding:0;
+}
+
+.ContainerNotShifted {
+    margin-left: 0px;
+    padding:0;
+}
+
+.NodeContentVisible {
+    display: block;
+}
+
+.NodeContentInvisible {
+    display: none;
+}
+
+</style>
