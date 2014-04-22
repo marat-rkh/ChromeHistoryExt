@@ -1,4 +1,3 @@
-
 function showVisit(visitItem) {
                  
             document.write("<li>" + visitItem.id + "</li>");
@@ -34,6 +33,5 @@ function showRawNodes(array) {
 }
 
 
+GetRawNodes.applyFunction('', 0, 139747139697400, 3, showRawNodes) 
 
-get = new Get('', 0, 139747139697400, 3) 
-get.applyFunction(showRawNodes)

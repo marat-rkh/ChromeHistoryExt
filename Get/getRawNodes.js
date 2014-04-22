@@ -1,99 +1,128 @@
-      
-function Get(text_, startTime_, endTime_, maxResults_) {
-   
-   //constructor
-   var text = text_
-   var startTime = startTime_
-   var endTime = endTime_
-   var maxResults = maxResults_
+     
+// static class     
+var GetRawNodes;
    
    
-   //public
-   this.applyFunction = function ( main_callback ) {
+// static function in class Get
+var applyFunction = function (text, startTime, endTime, maxResults, main_callback ) {
+
+   getRawNodes( main_callback );
    
-      getHistoryItems( curry_snd( getVisitItems, curry_snd( sortRawNodes, main_callback )  )  );
+   
+   //private             
+   
+   function pairToRawNodes(histItem, visitItems) {
+      resRawNodes = [];
+      for(var i=0; i < visitItems.length; i++){
+         resRawNodes.push( {HistoryItem: histItem, VisitItem: visitItems[i]} );
+      }
+      return resRawNodes;
    }
    
-
-   //private             
-   function getHistoryItems( callback ) {
+   
+   function zip(arr1, arr2, coverFun) {
+      arrRes = [];
+      if( arr1.length != arr2.length ) {
       
+         console.log("error ZIP: diff length");
+         return null;
+      }
+      for(var i=0; i < arr1.length; i++) {
+         arrRes.push( coverFun( arr1[i],arr2[i] ) );
+      }
+      
+      return arrRes;
+   }
+   
+   
+   function getRawNodes( callback ) 
+   {   
       chrome.history.search({
                'text': text,
                'startTime': startTime,
                'endTime': endTime,
                'maxResults': maxResults       
                },
-               callback
-      );       
-   }
-
-
-
-   function getVisitItems( array, callback ) {
-      
-         async.concat
-         (
-               array, 
-               
-               function(item, doneCallback ) 
+               function ( arrHistoryItems  ) 
                {
-               
-                   chrome.history.getVisits( 
-                                    {
-                                     'url' : item.url 
-                                    }
-                                    
-                                   , function (arrVisitItems) 
-                                      {
-                                          arrRawNodes = []
-                                          for(var i=0; i < arrVisitItems.length; i++) {
-                                             
-                                             if( startTime <= arrVisitItems[i].visitTime && arrVisitItems[i].visitTime <= endTime ) {  // where startTime and endTime ?
+                  async.map
+                  (
+                     arrHistoryItems, 
+                           
+                     function(historyItem, doneCallback ) 
+                     {
+                        chrome.history.getVisits
+                        ( 
+                         {'url' : historyItem.url },
                                                 
-                                                arrRawNodes.push(  { HistoryItem : item , VisitItem : arrVisitItems[i] }  )   // this.item ?
-                                             }
-                                          }
-                                          doneCallback(null, arrRawNodes )
-                                      }
-                   );
-               },
-               
-               function(err, results) 
-               {
-                  callback(results)
-               }   
-          )      
-   }
-
-
-
-   function sortRawNodes (array, callback) {
-         
-         async.sortBy
-         (
-               array, 
-               
-               function(item, doneCallback ) 
-               {
-                   doneCallback(null, item.VisitItem.visitTime )
-               },
-               
-               function(err, results) 
-               {
-                  callback(results)
-               }   
-          )  
-   }
-
-
-   function curry_snd ( function_with_two_args , snd_arg ) {
-      
-      return function(fst_arg) { function_with_two_args (fst_arg, snd_arg) }
+                         function (arrVisitItems) 
+                         { 
+                           doneCallback(null, arrVisitItems ); 
+                         }
+                        );
+                     },
+                           
+                     function(err, arrArraysVisitItems) 
+                     {  
+                      async.concat
+                      (
+                           //arrArraysRawNodes
+                           zip( arrHistoryItems, arrArraysVisitItems, pairToRawNodes ) ,
+                           
+                           function(itemArrRawNodes, doneCallback ) 
+                           {
+                              doneCallback(null, itemArrRawNodes )
+                           },
+                           
+                           function(err, allArrRawNodes) 
+                           {
+                              async.filter
+                              (
+                                    allArrRawNodes, 
+                                    
+                                    function( rawNode, doneCallback ) 
+                                    {
+                                       
+                                      doneCallback( startTime <= rawNode.VisitItem.visitTime && rawNode.VisitItem.visitTime <= endTime ) 
+                                    },
+                                    
+                                    function(filterArrRawNodes) 
+                                    {
+                                       async.sortBy
+                                       (
+                                             filterArrRawNodes, 
+                                             
+                                             function( rawNode, doneCallback ) 
+                                             {
+                                                doneCallback(null, rawNode.VisitItem.visitTime )
+                                             },
+                                             
+                                             function(err, sortArrRawNodes) 
+                                             {
+                                                callback(sortArrRawNodes)
+                                                ///////////////////////////////////////
+                                             }   
+                                        ) 
+                                    }   
+                               )               
+                           }   
+                        )           
+                     }   
+                  )            
+               }
+      );       
    }
 
 
 }
 
+
+
+GetRawNodes = {
+        'applyFunction' : applyFunction 
+      }
+
+
+   
          
                     
