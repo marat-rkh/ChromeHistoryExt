@@ -2,7 +2,7 @@
 
 function drawSomeTree() {
 
-    var visualTree = TreeVisualizer.buildTree(TwoBranches(), 6);
+    var visualTree = TreeVisualizer.buildTree(Branch5(), 4);
     document.body.appendChild(visualTree);
 }
 
