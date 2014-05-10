@@ -1,7 +1,3 @@
-<style type="text/css">
-
-div { }
-
 ul li {
     list-style-type: none;
 }
@@ -16,6 +12,11 @@ ul li {
     padding:0;
 }
 
+.NodeContent {
+    margin-left:18px;
+    min-height: 18px;
+}
+
 .NodeContentVisible {
     display: block;
 }
@@ -24,4 +25,26 @@ ul li {
     display: none;
 }
 
-</style>
+.SimpleEdge {
+    background-image: url(Pics/simpleEdgeMy.ico);
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    float: left;
+}
+
+.SimpleInvisibleEdge {
+    display: none;
+}
+
+.FoldedEdge {
+    background-image: url(Pics/foldedEdgeMy.ico);
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    float: left;
+}
+
+.FoldedInvisibleEdge {
+    display: none;
+}

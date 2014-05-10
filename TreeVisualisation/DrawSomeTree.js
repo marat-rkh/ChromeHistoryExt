@@ -1,23 +1,22 @@
 "use strict";
 
 function drawSomeTree() {
-
-    var visualTree = TreeVisualizer.buildTree(Branch5(), 4);
+    var defStrategy = new DefaultStrategy(4, 3);
+    var visualTree = TreeVisualizer.buildTree(Branch(), defStrategy);
     document.body.appendChild(visualTree);
 }
 
-function Branch4 () {
-    return new TreeNode([new TreeNode([new TreeNode([new TreeNode([], 1, "1")], 2, "2")], 3, "3")], 4, "4");
-}
-
-function Branch5 () {
-    return new TreeNode([new TreeNode([new TreeNode([new TreeNode([new TreeNode([], 1, "1")], 2, "2")], 3, "3")], 4, "4")], 5, "5");
-}
-
-function TwoBranches () {
-    var br1 = new TreeNode([new TreeNode([new TreeNode([new TreeNode([], 1, "1")], 2, "2")], 3, "3")], 4, "4");
-    var br2 = new TreeNode([new TreeNode([new TreeNode([], 1, "8")], 2, "9")], 3, "10");
-    return new TreeNode([new TreeNode([new TreeNode([br1, br2], 5, "5")], 6, "6")], 7, "7");
+function Branch () {
+    var root = new TreeNode(null, 'rt', 'http://vk.com', 1);
+    var inner1 = new TreeNode(root, 'inner1', 'http://vk.com', 2);
+    root.childrenArray = [inner1];
+    var inner2 = new TreeNode(inner1, 'inner2', 'http://vk.com', 3);
+    inner1.childrenArray = [inner2];
+    var inner3 = new TreeNode(inner2, 'inner3', 'http://vk.com', 4);
+    inner2.childrenArray = [inner3];
+    var leaf = new TreeNode(inner3, 'leaf', 'http://vk.com', 5);
+    inner3.childrenArray = [leaf];
+    return root;
 }
 
 window.onload = function() {

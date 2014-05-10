@@ -1,15 +1,11 @@
 "use strict";
 
-function VisualNode (/*htmlRepr | childrenList, isVisible, contentClass*/) {
+function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     //public static const fields
-    VisualNode.HTYPE = 'li';
+    VisualNode.NODE_HTYPE = 'li';
+    VisualNode.EDGE_PIC_ELEM_HTYPE = 'div';
     VisualNode.CONTENT_HTYPE = 'div';
     VisualNode.CONTAINER_HTYPE = 'ul';
-
-    VisualNode.VISIBLE_CLASS = 'NodeContentVisible';
-    VisualNode.INVISIBLE_CLASS = 'NodeContentInvisible';
-    VisualNode.CONTAINER_SHIFTED_CLASS = 'ContainerShifted';
-    VisualNode.CONTAINER_NOTSHIFTED_CLASS = 'ContainerNotShifted';
 
     // constructors
     var htmlNode;
@@ -19,10 +15,11 @@ function VisualNode (/*htmlRepr | childrenList, isVisible, contentClass*/) {
     }
     //new one
     if(arguments.length == 3) {
-        htmlNode = document.createElement(VisualNode.HTYPE);
-        htmlNode.appendChild(createContent(arguments[2]));
-        htmlNode.appendChild(createContainer(arguments[0]));
-        if(arguments[1] == true) {
+        htmlNode = createNode(arguments[0]);
+        htmlNode.appendChild(document.createElement(VisualNode.EDGE_PIC_ELEM_HTYPE));
+        htmlNode.appendChild(createContent());
+        htmlNode.appendChild(createContainer(arguments[1]));
+        if(arguments[2] == true) {
             makeVisible();
         }
         else {
@@ -30,34 +27,77 @@ function VisualNode (/*htmlRepr | childrenList, isVisible, contentClass*/) {
         }
     }
 
-    //public
     this.getHtml = function () {
         return htmlNode;
-    }
-    this.addChild = function (child) {
-        htmlNode.children[1].appendChild(child.getHtml());
-    }
+    };
     this.getChildren = function () {
-        return htmlNode.children[1].children;
-    }
+        var childrenInHtml = getChildrenContainer().children;
+        var visualChildren = [];
+        for(var i = 0; i < childrenInHtml.length; ++i) {
+            visualChildren[i] = NodeVisualizer.fromHtml(childrenInHtml[i]);
+        }
+        return visualChildren;
+    };
+    this.getParent = function() {
+        var nodeContainerUl = htmlNode.parentNode;
+        if(nodeContainerUl !== null) {
+            return NodeVisualizer.fromHtml(nodeContainerUl.parentNode);
+        }
+        return null;
+    };
+    this.getEdgePicElem = getEdgePicElem;
+    this.getContent = getContent;
+
+    this.getNodeType = function() {
+        var classesStr = getContent().className;
+        if(classesStr.indexOf(CssClassNames.TRANS_NODE) > -1) {
+            return CssClassNames.TRANS_NODE;
+        }
+        return CssClassNames.SIMPLE_NODE;
+    };
+
+    this.addChild = function (child) {
+        getChildrenContainer().appendChild(child.getHtml());
+    };
 
     this.setVisible = function() {
-        setVisibilityClasses(VisualNode.VISIBLE_CLASS, VisualNode.CONTAINER_SHIFTED_CLASS);
-    }
+        var edgeClass = this.getEdgePicElem().className;
+        if(edgeClass.indexOf(CssClassNames.SIMPLE_EDGE) > -1 ||
+           edgeClass.indexOf(CssClassNames.SIMPLE_INVISIBLE_EDGE) > -1)
+        {
+            setVisibilityClasses(CssClassNames.VISIBLE_CONTENT, CssClassNames.CONTAINER_SHIFTED,
+                CssClassNames.SIMPLE_EDGE);
+        } else {
+            setVisibilityClasses(CssClassNames.VISIBLE_CONTENT, CssClassNames.CONTAINER_SHIFTED,
+                CssClassNames.FOLDED_EDGE);
+        }
+    };
     this.setInvisible = function() {
-        setVisibilityClasses(VisualNode.INVISIBLE_CLASS, VisualNode.CONTAINER_NOTSHIFTED_CLASS);
+        var edgeClass = this.getEdgePicElem().className;
+        if(edgeClass.indexOf(CssClassNames.SIMPLE_EDGE) > -1 ||
+           edgeClass.indexOf(CssClassNames.SIMPLE_INVISIBLE_EDGE) > -1)
+        {
+            setVisibilityClasses(CssClassNames.INVISIBLE_CONTENT, CssClassNames.CONTAINER_NOTSHIFTED,
+                CssClassNames.SIMPLE_INVISIBLE_EDGE);
+        } else {
+            setVisibilityClasses(CssClassNames.INVISIBLE_CONTENT, CssClassNames.CONTAINER_NOTSHIFTED,
+                CssClassNames.FOLDED_INVISIBLE_EDGE);
+        }
+    };
+
+    this.equals = function(otherVisualNode) {
+        return this.getHtml().className === otherVisualNode.getHtml().className;
     }
 
-    //protected
-    this._setContent = function(txt) {
-        return htmlNode.children[0].innerText = txt;
+    function createNode(id) {
+        var htmlNodeElem = document.createElement(VisualNode.NODE_HTYPE);
+        htmlNodeElem.className = id.toString();
+        return htmlNodeElem;
     }
-
-    //private
-    function createContent (contentClass) {
-        var content = document.createElement(VisualNode.CONTENT_HTYPE);
-        content.className = contentClass;
-        return content;
+    function createContent() {
+        var contentElem = document.createElement(VisualNode.CONTENT_HTYPE);
+        contentElem.className = CssClassNames.NODE_CONTENT;
+        return contentElem;
     }
 
     function createContainer (childrenList) {
@@ -71,85 +111,78 @@ function VisualNode (/*htmlRepr | childrenList, isVisible, contentClass*/) {
         return container;
     }
 
-    function getChildrenContainer() {
+    function getEdgePicElem() {
+        return htmlNode.children[0];
+    }
+    function getContent() {
         return htmlNode.children[1];
     }
-
-    function getContent() {
-        return htmlNode.children[0];
+    function getChildrenContainer() {
+        return htmlNode.children[2];
     }
 
     function makeVisible() {
-        getContent().className += (' ' + VisualNode.VISIBLE_CLASS);
-        getChildrenContainer().className += " ContainerShifted"
+        getContent().className += (' ' + CssClassNames.VISIBLE_CONTENT);
+        getChildrenContainer().className += (' ' + CssClassNames.CONTAINER_SHIFTED);
     }
 
     function makeInvisible() {
-        getContent().className += (' ' + VisualNode.INVISIBLE_CLASS);
-        getChildrenContainer().className += " ContainerNotShifted"
+        getContent().className += (' ' + CssClassNames.INVISIBLE_CONTENT);
+        getChildrenContainer().className += (' ' + CssClassNames.CONTAINER_NOTSHIFTED);
     }
 
-    function setVisibilityClasses (visibilityClass, shiftingClass) {
-        var re = new RegExp("(^|\\s)(" + VisualNode.INVISIBLE_CLASS + "|" + VisualNode.VISIBLE_CLASS + ")(\\s|$)");
+    function setVisibilityClasses (visibilityClass, shiftingClass, edgeClass) {
+        var re = new RegExp("(^|\\s)(" + CssClassNames.INVISIBLE_CONTENT + "|" + CssClassNames.VISIBLE_CONTENT + ")(\\s|$)");
         var modifiedClassString = getContent().className.replace(re, '$1'+visibilityClass+'$3');
         getContent().className = modifiedClassString;
-        re = new RegExp("(^|\\s)(" + VisualNode.CONTAINER_SHIFTED_CLASS + "|" + VisualNode.CONTAINER_NOTSHIFTED_CLASS + ")(\\s|$)");
+
+        re = new RegExp("(^|\\s)(" + CssClassNames.CONTAINER_SHIFTED + "|" + CssClassNames.CONTAINER_NOTSHIFTED + ")(\\s|$)");
         modifiedClassString = getChildrenContainer().className.replace(re, '$1'+shiftingClass+'$3');
         getChildrenContainer().className = modifiedClassString;
+
+        re = new RegExp("(^|\\s)(" + CssClassNames.SIMPLE_EDGE + "|" + CssClassNames.SIMPLE_INVISIBLE_EDGE +
+            "|" + CssClassNames.FOLDED_EDGE + "|" + CssClassNames.FOLDED_INVISIBLE_EDGE + ")(\\s|$)");
+        modifiedClassString = getEdgePicElem().className.replace(re, '$1'+edgeClass+'$3');
+        getEdgePicElem().className = modifiedClassString;
     }
 }
 
-SimpleNode.prototype = new VisualNode();
-SimpleNode.prototype.constructor = SimpleNode;
-function SimpleNode(/*htmlRepr | childrenList, isVisible, content*/) {
-    SimpleNode.cssClass = "SimpleNode";
+//SimpleNode.prototype = new VisualNode();
+//SimpleNode.prototype.constructor = SimpleNode;
+//function SimpleNode(/*htmlRepr | childrenList, isVisible, content*/) {
+//    SimpleNode.cssClass = "SimpleNode";
+//
+//    //constructors
+//    if(arguments.length == 1) {
+//        VisualNode.call(this, arguments[0])
+//    }
+//    else {
+//        VisualNode.call(this, arguments[0], arguments[1], SimpleNode.cssClass);
+//        this._setContent(arguments[2]);
+//    }
+//}
 
-    //constructors
-    if(arguments.length == 1) {
-        VisualNode.call(this, arguments[0])
-    }
-    else {
-        VisualNode.call(this, arguments[0], arguments[1], SimpleNode.cssClass);
-        this._setContent(arguments[2]);
-    }
-}
-
-FillerNode.prototype = new VisualNode();
-FillerNode.prototype.constructor = FillerNode;
-function FillerNode(/*htmlRepr | childrenList, isVisible*/) {
-    var txt = "...";
-
-    FillerNode.cssClass = "FillerNode";
-
-    //constructors
-    if(arguments.length == 1) {
-        VisualNode.call(this, arguments[0])
-    }
-    else {
-        VisualNode.call(this, arguments[0], arguments[1], FillerNode.cssClass);
-        this._setContent(txt);
-    }
-}
-
-DelimitterNode.prototype = new VisualNode();
-DelimitterNode.prototype.constructor = DelimitterNode;
-function DelimitterNode (childrenList) {
-    DelimitterNode.cssClass = 'DelimitterNode';
-
-    VisualNode.call(this, childrenList, false, DelimitterNode.cssClass);
-}
-
-function nodeFromHtml(htmlNode) {
-    if(htmlNode.tagName != 'LI') {
-        return;
-    }
-    if(elemHasClass(htmlNode.children[0], SimpleNode.cssClass)) {
-        return new SimpleNode(htmlNode);
-    }
-    if(elemHasClass(htmlNode.children[0], FillerNode.cssClass)) {
-        return new FillerNode(htmlNode);
-    }
-    if(elemHasClass(htmlNode.children[0], DelimitterNode.cssClass)) {
-        return new DelimitterNode([]);
-    }
-}
+//FillerNode.prototype = new VisualNode();
+//FillerNode.prototype.constructor = FillerNode;
+//function FillerNode(/*htmlRepr | childrenList, isVisible*/) {
+//    var txt = "...";
+//
+//    FillerNode.cssClass = "FillerNode";
+//
+//    //constructors
+//    if(arguments.length == 1) {
+//        VisualNode.call(this, arguments[0])
+//    }
+//    else {
+//        VisualNode.call(this, arguments[0], arguments[1], FillerNode.cssClass);
+//        this._setContent(txt);
+//    }
+//}
+//
+//DelimiterNode.prototype = new VisualNode();
+//DelimiterNode.prototype.constructor = DelimiterNode;
+//function DelimiterNode (childrenList) {
+//    DelimiterNode.cssClass = 'DelimiterNode';
+//
+//    VisualNode.call(this, childrenList, false, DelimiterNode.cssClass);
+//}

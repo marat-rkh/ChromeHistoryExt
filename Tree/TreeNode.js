@@ -1,7 +1,13 @@
 "use strict";
 
-function TreeNode (ca, bl, nm) {
-    this.childrenArray = ca;
-    this.branchLength = bl;
-    this.name = nm;
+function TreeNode (parent, title, url, id) {
+    this.childrenArray = [];
+    this.parent = parent;
+    this.title = title;
+    this.url = url;
+    this.id = id;
+
+    this.equals = function (treeNode) {
+        return this.id === treeNode.id;
+    }
 }
