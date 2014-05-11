@@ -7,7 +7,7 @@ function drawSomeTree() {
 }
 
 function Branch () {
-    var root = new TreeNode(null, 'rt', 'http://vk.com', 1);
+    var root = new TreeNode(null, 'root', 'http://vk.com', 1);
     var inner1 = new TreeNode(root, 'inner1', 'http://vk.com', 2);
     root.childrenArray = [inner1];
     var inner2 = new TreeNode(inner1, 'inner2', 'http://vk.com', 3);

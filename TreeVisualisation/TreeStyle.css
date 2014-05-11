@@ -8,7 +8,7 @@ ul li {
 }
 
 .ContainerNotShifted {
-    margin-left: 0px;
+    margin-left: 0;
     padding:0;
 }
 
@@ -47,4 +47,19 @@ ul li {
 
 .FoldedInvisibleEdge {
     display: none;
+}
+
+.DelimiterState a:link { color: green; }
+.DelimiterState a:visited { color: green;  }
+.DelimiterState a:hover { color: green; }
+.DelimiterState a:active { color: green; }
+
+.FoldNodeState a:link { color: green; }
+.FoldNodeState a:visited { color: green; }
+.FoldNodeState a:hover { color: green; }
+.FoldNodeState a:active { color: green; }
+
+.FoldButton {
+    height: 18px;
+    margin-left: 6px;
 }

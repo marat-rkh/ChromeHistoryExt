@@ -11,5 +11,8 @@ var CssClassNames = {
     'FOLDED_INVISIBLE_EDGE' : 'FoldedInvisibleEdge',
     "FOLDED_EDGE" : 'FoldedEdge',
     "SIMPLE_NODE" : 'SimpleNode',
-    "TRANS_NODE" : 'TransNode'
+    "TRANS_NODE" : 'TransNode',
+    'FOLD_NODE_STATE' : 'FoldNodeState',
+    'DELIMITER_STATE' : 'DelimiterState',
+    'FOLD_BUTTON' : 'FoldButton'
 };

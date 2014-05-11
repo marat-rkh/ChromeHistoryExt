@@ -31,7 +31,12 @@ var fromHtml = function(htmlNode) {
 
 var setEdgeFolded = function (visualNode) {
     var edgePicElem = visualNode.getEdgePicElem();
-    changeCssClass(edgePicElem, CssClassNames.SIMPLE_EDGE, CssClassNames.FOLDED_EDGE);
+    CssUtils.changeCssClass(edgePicElem, CssClassNames.SIMPLE_EDGE, CssClassNames.FOLDED_EDGE);
+};
+
+var setSimpleEdge = function (visualNode) {
+    var edgePicElem = visualNode.getEdgePicElem();
+    CssUtils.changeCssClass(edgePicElem, CssClassNames.FOLDED_EDGE, CssClassNames.SIMPLE_EDGE);
 };
 
 function createSimpleEdgedNode(usualNode, childrenList, isVisible) {
@@ -55,17 +60,12 @@ function fillVisualNodeContent(usualNode, content) {
     content.appendChild(aElem);
 }
 
-function changeCssClass(elem, oldCssClass, newCssClass) {
-    var re = new RegExp("(^|\\s)(" + oldCssClass + ")(\\s|$)");
-    var modifiedClassString = elem.className.replace(re, '$1'+newCssClass+'$3');
-    elem.className = modifiedClassString;
-}
-
 //set class methods
 NodeVisualizer = {
     'createRoot' : createRoot,
     'createSimpleNode' : createSimpleNode,
     'createTransNode' : createTransNode,
     'fromHtml' : fromHtml,
-    'setEdgeFolded' : setEdgeFolded
-}
+    'setEdgeFolded' : setEdgeFolded,
+    'setSimpleEdge' : setSimpleEdge
+};

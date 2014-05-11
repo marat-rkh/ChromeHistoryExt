@@ -4,9 +4,8 @@ function nodeFoldUnfoldHandler(event) {
     event = event || window.event;
     var clickedElem = event.target || event.srcElement;
 
-    if(!elemHasClass(clickedElem, FillerNode.cssClass)) {
-        return;
+    if(CssUtils.elemHasClass(clickedElem, CssClassNames.FOLDED_EDGE)) {
+        var nodeWithFoldedEdge = NodeVisualizer.fromHtml(clickedElem.parentNode);
+        TreeVisualizer.unfoldTreePart(nodeWithFoldedEdge);
     }
-    var fillerNode = new FillerNode(clickedElem.parentNode);
-    TreeVisualizer.unfoldTreePart(fillerNode);
 }
