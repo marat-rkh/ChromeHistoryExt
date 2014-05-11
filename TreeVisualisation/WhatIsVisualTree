@@ -3,6 +3,7 @@
     <div>                             <!-- Events Handler -->
         <ul>                          <!-- Tree container -->
             <li>                      <!-- Node -->
+                <div></div>           <!-- Node's edge pic holder -->
                 <div></div>           <!-- Node's content -->
                 <ul></ul>             <!-- Subtree container -->
             </li>
