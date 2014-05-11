@@ -1,6 +1,6 @@
 "use strict";
 
-function nodeFoldUnfoldHandler(event) {
+function unfoldEventHandler(event) {
     event = event || window.event;
     var clickedElem = event.target || event.srcElement;
 

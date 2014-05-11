@@ -48,7 +48,6 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     };
     this.getEdgePicElem = getEdgePicElem;
     this.getContent = getContent;
-    this.getChildrenContainer = getChildrenContainer;
 
     this.getNodeType = function() {
         if(CssUtils.elemHasClass(this.getContent(), CssClassNames.TRANS_NODE)) {
@@ -56,18 +55,18 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
         }
         return CssClassNames.SIMPLE_NODE;
     };
-    this.getEdgeType = function() {
-        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE)) {
-            return CssClassNames.SIMPLE_EDGE;
-        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE)) {
-            return CssClassNames.SIMPLE_INVISIBLE_EDGE;
-        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_EDGE)) {
-            return CssClassNames.FOLDED_EDGE;
-        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_INVISIBLE_EDGE)) {
-            return CssClassNames.FOLDED_INVISIBLE_EDGE;
-        }
-        return null;
-    };
+//    this.getEdgeType = function() {
+//        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE)) {
+//            return CssClassNames.SIMPLE_EDGE;
+//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE)) {
+//            return CssClassNames.SIMPLE_INVISIBLE_EDGE;
+//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_EDGE)) {
+//            return CssClassNames.FOLDED_EDGE;
+//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_INVISIBLE_EDGE)) {
+//            return CssClassNames.FOLDED_INVISIBLE_EDGE;
+//        }
+//        return null;
+//    };
 
     this.addChild = function (child) {
         getChildrenContainer().appendChild(child.getHtml());
@@ -115,9 +114,9 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     this.resetFoldNodeState = function() {
         CssUtils.removeCssClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
     };
-    this.isFoldNode = function() {
-        return CssUtils.elemHasClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
-    };
+//    this.isFoldNode = function() {
+//        return CssUtils.elemHasClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
+//    };
 
     this.setDelimiterState = function() {
         if(!CssUtils.elemHasClass(this.getContent(), CssClassNames.DELIMITER_STATE)) {

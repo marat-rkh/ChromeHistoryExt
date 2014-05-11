@@ -17,12 +17,17 @@ var CssUtils = {
 
     'removeCssClass' : function (elem, cssClass) {
         var classesStr = elem.className;
-        var endIndex = classesStr.indexOf(cssClass);
-        if(endIndex > -1) {
-            if(endIndex != 0 && classesStr[endIndex - 1] === ' ') {
-                endIndex = endIndex - 1;
+        var startIndex = classesStr.indexOf(cssClass);
+        if(startIndex > -1) {
+            var endIndex = classesStr.indexOf(' ', startIndex);
+            if(startIndex != 0 && classesStr[startIndex - 1] === ' ') {
+                startIndex = startIndex - 1;
             }
-            elem.className = classesStr.substr(0, endIndex);
+            var newClassesStr = classesStr.substr(0, startIndex);
+            if(endIndex > -1) {
+                newClassesStr += classesStr.substr(endIndex);
+            }
+            elem.className = newClassesStr;
         }
     }
 };

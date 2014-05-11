@@ -26,7 +26,7 @@ ul li {
 }
 
 .SimpleEdge {
-    background-image: url(Pics/simpleEdgeMy.ico);
+    background-image: url(Pics/simpleEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;
@@ -38,7 +38,7 @@ ul li {
 }
 
 .FoldedEdge {
-    background-image: url(Pics/foldedEdgeMy.ico);
+    background-image: url(Pics/foldedEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;

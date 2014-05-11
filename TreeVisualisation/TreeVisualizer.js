@@ -10,7 +10,7 @@ var TreeVisualizer = {
 
         function createEventsHandler () {
             var treeEventsHandler = document.createElement('div');
-            treeEventsHandler.onclick = nodeFoldUnfoldHandler;
+            treeEventsHandler.onclick = unfoldEventHandler;
             return treeEventsHandler;
         }
 
