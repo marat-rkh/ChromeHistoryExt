@@ -12,6 +12,31 @@ function TreeNode (rawNode_, parent_) {
         return this.id === treeNode.id;
     };
 
+
+    this.getDate = function() {
+      
+      floorTime = Math.floor( this.rawNode.VisitItem.visitTime );
+      sec = (floorTime - floorTime % 1000) / 1000;
+      var date = new Date(0); 
+      date.setUTCSeconds(sec);
+      
+      year = date.getFullYear().toString();
+      month = (date.getMonth()+1).toString();
+      day = date.getDate().toString();
+      
+      if(month.length == 1) {
+        month = "0" + month;
+      }
+      
+      if(day.length == 1) {
+        day = "0" + day;
+      }
+      
+      return day + "." + month + "." + year;
+    }
+    
+    
+    
     this.getTime = function() {
 
       floorTime = Math.floor( this.rawNode.VisitItem.visitTime );

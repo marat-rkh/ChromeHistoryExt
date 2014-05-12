@@ -75,8 +75,8 @@ function createNoEdgedNode (usualNode, childrenList, isVisible) {
 
 function fillVisualNodeContent(usualNode, content) {
     var timeDiv = document.createElement('div');
-    //timeDiv.innerText = usualNode.getTime();
-    timeDiv.innerText = '15.36';
+    timeDiv.innerText = usualNode.getTime();
+    //timeDiv.innerText = '15.36';
     content.appendChild(timeDiv);
 
     var favicon = document.createElement('img');

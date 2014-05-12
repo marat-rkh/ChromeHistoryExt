@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Getting Started Extension's Popup</title>
+    
+    <style>
+      body {
+        min-width: 600px;
+        min-height: 600px;
+        overflow-x: hidden;
+      }
+
+    </style>
+    
 
     <link rel="stylesheet" type="text/css" href="../TreeStyle.css">
 
+    <script src="scriptTest.js"></script>  
+    
+    <script src="../../async.js"></script>  
+    <script src="../../Get/getRawNodes.js"></script>
+    <script src="../../Tree/TreeNode.js"></script>
+    <script src="../../Tree/ForestBuilder.js"></script>
+    <script src="../../Get/testGet.js"></script>
+    
     <script src="../CssUtils.js"></script>
     <script src="../VisualNode.js"></script>
-    <script src="../../Tree/TreeNode.js"></script>
     <script src="../TreeVisualizer.js"></script>
     <script src="DrawSomeTree.js"></script>
+    <script src="../UnfoldEventHandler.js"></script>
     <script src="../CssClassNames.js"></script>
     <script src="../FoldingStrategies/DefaultStrategy.js"></script>
     <script src="../NodeVisualizer.js"></script>

@@ -1,5 +1,47 @@
 "use strict";
 
+function drawSomeTree( rawNodes ) {
+    
+       var mainContainer = document.createElement('div');
+       var dateBuf = null;
+       roots = ForestBuilder(rawNodes);
+       
+       for(var i = roots.length-1; i >= 0; i--) {
+       
+          if( roots[i].childrenArray.length > 0) {  
+            if(dateBuf != roots[i].getDate()) {
+               dateBuf = roots[i].getDate();
+               var dayStrElem = document.createElement('div');
+               dayStrElem.innerText = dateBuf;
+               mainContainer.appendChild(dayStrElem);
+            }
+            
+            var defStrategy = new DefaultStrategy(4, 2);
+            var visualTree = TreeVisualizer.buildTree(roots[i], defStrategy);  
+            mainContainer.appendChild(visualTree);
+          }
+       }
+       
+       document.body.appendChild(mainContainer);
+
+    
+}
+
+window.onload = function() {
+
+   var element = document.createElement('input');
+   document.body.appendChild(element);
+   
+   GetRawNodes.applyFunction('', 0, 100000000000000, 1000,
+   drawSomeTree);                        
+};
+
+
+
+
+
+
+/*
 function drawSomeTree() {
     var defStrategy = new DefaultStrategy(4, 2);
     var visualTree = TreeVisualizer.buildTree(Branch7(), defStrategy);
@@ -26,3 +68,4 @@ function Branch7 () {
 window.onload = function() {
     drawSomeTree();
 };
+*/
