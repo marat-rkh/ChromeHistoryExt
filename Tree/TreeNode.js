@@ -12,7 +12,7 @@ function TreeNode (rawNode_, parent_) {
         return this.id === treeNode.id;
     }
     
-    this.getDate = function() {
+    this.getTime = function() {
       
       floorTime = Math.floor( this.rawNode.VisitItem.visitTime );
       sec = (floorTime - floorTime % 1000) / 1000;
