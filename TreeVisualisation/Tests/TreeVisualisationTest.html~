@@ -25,6 +25,7 @@
     <script src="../VisualNode.js"></script>
     <script src="../TreeVisualizer.js"></script>
     <script src="DrawSomeTree.js"></script>
+    <script src="../UnfoldEventHandler.js"></script>
     <script src="../CssClassNames.js"></script>
     <script src="../FoldingStrategies/DefaultStrategy.js"></script>
     <script src="../NodeVisualizer.js"></script>
