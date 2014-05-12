@@ -1,10 +1,9 @@
 "use strict";
 
 function drawSomeTree( rawNodes ) {
-    
        var mainContainer = document.createElement('div');
        var dateBuf = null;
-       roots = ForestBuilder(rawNodes);
+       var roots = ForestBuilder(rawNodes);
        
        for(var i = roots.length-1; i >= 0; i--) {
        
@@ -21,24 +20,15 @@ function drawSomeTree( rawNodes ) {
             mainContainer.appendChild(visualTree);
           }
        }
-       
        document.body.appendChild(mainContainer);
-
-    
 }
 
 window.onload = function() {
-
    var element = document.createElement('input');
    document.body.appendChild(element);
    
-   GetRawNodes.applyFunction('', 0, 100000000000000, 1000,
-   drawSomeTree);                        
+   GetRawNodes.applyFunction('', 0, 100000000000000, 1000, drawSomeTree);
 };
-
-
-
-
 
 
 /*
