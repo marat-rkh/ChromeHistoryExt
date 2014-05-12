@@ -1,43 +1,63 @@
 "use strict";
 
-//static class
-var NodeVisualizer;
+var NodeVisualizer = {
+    'createRoot' : function (rootNode, childrenList, isVisible) {
+        var visualRoot = createNoEdgedNode(rootNode, childrenList, isVisible);
+        visualRoot.getEdgePicElem().className = CssClassNames.SIMPLE_INVISIBLE_EDGE;
+        return visualRoot;
+    },
 
-//methods
-var createRoot = function (rootNode, childrenList, isVisible) {
-    return createNoEdgedNode(rootNode, childrenList, isVisible);
-};
+    'createSimpleNode' : function(usualNode, childrenList, isVisible) {
+        var visualNode = createSimpleEdgedNode(usualNode, childrenList, isVisible);
+        var contentElem = visualNode.getContent();
+        contentElem.className += (' ' + CssClassNames.SIMPLE_NODE);
+        return visualNode;
+    },
 
-var createSimpleNode = function(usualNode, childrenList, isVisible) {
-    var visualNode = createSimpleEdgedNode(usualNode, childrenList, isVisible);
-    var contentElem = visualNode.getContent();
-    contentElem.className += (' ' + CssClassNames.SIMPLE_NODE);
-    return visualNode;
-};
+    'createTransNode' : function(usualNode, childrenList, isVisible) {
+        var visualNode = createSimpleEdgedNode(usualNode, childrenList, isVisible);
+        var contentElem = visualNode.getContent();
+        contentElem.className += (' ' + CssClassNames.TRANS_NODE);
+        return visualNode;
+    },
 
-var createTransNode = function(usualNode, childrenList, isVisible) {
-    var visualNode = createSimpleEdgedNode(usualNode, childrenList, isVisible);
-    var contentElem = visualNode.getContent();
-    contentElem.className += (' ' + CssClassNames.TRANS_NODE);
-    return visualNode;
-};
+    'fromHtml' : function(htmlNode) {
+        if(htmlNode.tagName != 'LI') {
+            return null;
+        }
+        return new VisualNode(htmlNode);
+    },
 
-var fromHtml = function(htmlNode) {
-    if(htmlNode.tagName != 'LI') {
-        return null;
+    'setUnfoldEdge' : function (visualNode) {
+        var edgePicElem = visualNode.getEdgePicElem();
+        clearEdgeContainer(edgePicElem);
+        CssUtils.addCssClass(edgePicElem, CssClassNames.FOLDED_EDGE);
+        edgePicElem.appendChild(DomElemsFactory.createUnfoldButton(visualNode.getHtml()));
+    },
+
+    'setSimpleEdge' : function (visualNode) {
+        var edgePicElem = visualNode.getEdgePicElem();
+        clearEdgeContainer(edgePicElem);
+        CssUtils.addCssClass(edgePicElem, CssClassNames.SIMPLE_EDGE);
+    },
+
+    'setFoldEdge' : function (visualNode) {
+        var edgePicElem = visualNode.getEdgePicElem();
+        clearEdgeContainer(edgePicElem);
+        CssUtils.addCssClass(edgePicElem, CssClassNames.UNFOLDED_EDGE);
+        edgePicElem.appendChild(DomElemsFactory.createFoldButton(visualNode.getHtml()));
     }
-    return new VisualNode(htmlNode);
 };
 
-var setEdgeFolded = function (visualNode) {
-    var edgePicElem = visualNode.getEdgePicElem();
-    CssUtils.changeCssClass(edgePicElem, CssClassNames.SIMPLE_EDGE, CssClassNames.FOLDED_EDGE);
-};
-
-var setSimpleEdge = function (visualNode) {
-    var edgePicElem = visualNode.getEdgePicElem();
-    CssUtils.changeCssClass(edgePicElem, CssClassNames.FOLDED_EDGE, CssClassNames.SIMPLE_EDGE);
-};
+function clearEdgeContainer(edgeContainer) {
+    CssUtils.removeCssClass(edgeContainer, CssClassNames.SIMPLE_EDGE);
+    CssUtils.removeCssClass(edgeContainer, CssClassNames.FOLDED_EDGE);
+    CssUtils.removeCssClass(edgeContainer, CssClassNames.UNFOLDED_EDGE);
+    var buttonsOnEdge = edgeContainer.getElementsByTagName('button');
+    for(var i = 0; i < buttonsOnEdge.length; ++i) {
+        edgeContainer.removeChild(buttonsOnEdge[i]);
+    }
+}
 
 function createSimpleEdgedNode(usualNode, childrenList, isVisible) {
     var visualNode = createNoEdgedNode(usualNode, childrenList, isVisible);
@@ -54,18 +74,18 @@ function createNoEdgedNode (usualNode, childrenList, isVisible) {
 }
 
 function fillVisualNodeContent(usualNode, content) {
+    var timeDiv = document.createElement('div');
+    //timeDiv.innerText = usualNode.getTime();
+    timeDiv.innerText = '15.36';
+    content.appendChild(timeDiv);
+
+    var favicon = document.createElement('img');
+    favicon.src = 'http://www.google.com/s2/favicons?domain=' + usualNode.url;
+    content.appendChild(favicon);
+
     var aElem = document.createElement('a');
     aElem.innerText = usualNode.title;
     aElem.href = usualNode.url;
+    aElem.target = '_blank';
     content.appendChild(aElem);
 }
-
-//set class methods
-NodeVisualizer = {
-    'createRoot' : createRoot,
-    'createSimpleNode' : createSimpleNode,
-    'createTransNode' : createTransNode,
-    'fromHtml' : fromHtml,
-    'setEdgeFolded' : setEdgeFolded,
-    'setSimpleEdge' : setSimpleEdge
-};

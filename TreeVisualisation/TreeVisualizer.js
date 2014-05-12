@@ -3,16 +3,17 @@
 //static class
 var TreeVisualizer = {
     'buildTree' : function (treeRoot, foldingStrategy) {
-        var treeEventsHandler = createEventsHandler();
-        var treeContainer = createVisualTree(treeRoot, foldingStrategy);
-        treeEventsHandler.appendChild(treeContainer);
-        return treeEventsHandler;
+//        var treeEventsHandler = createEventsHandler();
+//        var treeContainer = createVisualTree(treeRoot, foldingStrategy);
+//        treeEventsHandler.appendChild(treeContainer);
+//        return treeEventsHandler;
+        return createVisualTree(treeRoot, foldingStrategy);
 
-        function createEventsHandler () {
-            var treeEventsHandler = document.createElement('div');
-            treeEventsHandler.onclick = unfoldEventHandler;
-            return treeEventsHandler;
-        }
+//        function createEventsHandler () {
+//            var treeEventsHandler = document.createElement('div');
+//            treeEventsHandler.onclick = unfoldEventHandler;
+//            return treeEventsHandler;
+//        }
 
         function createVisualTree (treeRoot, foldingStrategy) {
             var treeContainer = document.createElement('ul');
@@ -53,40 +54,43 @@ var TreeVisualizer = {
         }
     },
 
-    'unfoldTreePart' : function (node) {
+    'unfoldTreePart' : function (htmlNode) {
+        var node = NodeVisualizer.fromHtml(htmlNode);
         NodeVisualizer.setSimpleEdge(node);
         node.setDelimiterState();
         var currentNode = node.getParent();
         while(!currentNode.isVisible()) {
             currentNode.setVisible();
+            NodeVisualizer.setFoldEdge(currentNode);
             currentNode = currentNode.getParent();
         }
         currentNode.setFoldNodeState();
-        createFoldButton(currentNode);
-
-        function createFoldButton(node) {
-            var foldButton = document.createElement('button');
-            foldButton.className = CssClassNames.FOLD_BUTTON;
-            foldButton.innerHTML = 'Fold';
-            foldButton.onclick = TreeVisualizer.foldTreePart.bind(null, node);
-            node.getContent().appendChild(foldButton);
-        }
     },
 
-    'foldTreePart' : function(node) {
-        removeFoldButton(node);
-        node.resetFoldNodeState();
-        var currentNode = node.getChildren()[0];
-        while(!currentNode.isDelimiter()) {
-            currentNode.setInvisible();
-            currentNode = currentNode.getChildren()[0];
-        }
-        currentNode.resetDelimiterState();
-        NodeVisualizer.setEdgeFolded(currentNode);
+    'foldTreePart' : function(htmlNode) {
+        var current = NodeVisualizer.fromHtml(htmlNode);
+        foldUp(current.getParent());
+        foldDown(current);
 
-        function removeFoldButton(node) {
-            var foldButton = node.getContent().children[1];
-            node.getContent().removeChild(foldButton);
+        function foldUp(visualNode) {
+            var currentNode = visualNode;
+            while(!currentNode.isFoldNode()) {
+                NodeVisualizer.setSimpleEdge(currentNode);
+                currentNode.setInvisible();
+                currentNode = currentNode.getParent();
+            }
+            currentNode.resetFoldNodeState();
+        }
+
+        function foldDown(visualNode) {
+            var currentNode = visualNode;
+            while(!currentNode.isDelimiter()) {
+                NodeVisualizer.setSimpleEdge(currentNode);
+                currentNode.setInvisible();
+                currentNode = currentNode.getChildren()[0];
+            }
+            currentNode.resetDelimiterState();
+            NodeVisualizer.setUnfoldEdge(currentNode);
         }
     }
 };

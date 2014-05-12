@@ -114,9 +114,9 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     this.resetFoldNodeState = function() {
         CssUtils.removeCssClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
     };
-//    this.isFoldNode = function() {
-//        return CssUtils.elemHasClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
-//    };
+    this.isFoldNode = function() {
+        return CssUtils.elemHasClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
+    };
 
     this.setDelimiterState = function() {
         if(!CssUtils.elemHasClass(this.getContent(), CssClassNames.DELIMITER_STATE)) {

@@ -1,7 +1,6 @@
 "use strict";
 
 function drawSomeTree() {
-    //TODO fix: if max screen width is 1 - exception
     var defStrategy = new DefaultStrategy(4, 2);
     var visualTree = TreeVisualizer.buildTree(Branch7(), defStrategy);
     document.body.appendChild(visualTree);

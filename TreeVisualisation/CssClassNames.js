@@ -14,5 +14,7 @@ var CssClassNames = {
     "TRANS_NODE" : 'TransNode',
     'FOLD_NODE_STATE' : 'FoldNodeState',
     'DELIMITER_STATE' : 'DelimiterState',
-    'FOLD_BUTTON' : 'FoldButton'
+    'FOLD_BUTTON' : 'FoldButton',
+    'UNFOLD_BUTTON' : 'UnfoldButton',
+    'UNFOLDED_EDGE' : 'UnfoldedEdge'
 };

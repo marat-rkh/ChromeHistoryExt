@@ -17,6 +17,22 @@ ul li {
     min-height: 18px;
 }
 
+.NodeContent a {
+    display: inline;
+}
+.NodeContent div {
+    display: inline;
+    font-size: 12px;
+    color: dimgray;
+    padding-right: 8px;
+}
+.NodeContent img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+
 .NodeContentVisible {
     display: block;
 }
@@ -38,7 +54,16 @@ ul li {
 }
 
 .FoldedEdge {
-    background-image: url(Pics/foldedEdge.ico);
+    background-image: url(Pics/foldedEdgeRect.ico);
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    float: left;
+}
+
+.UnfoldedEdge {
+    /*TODO set another icon */
+    background-image: url(Pics/simpleEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;
@@ -60,6 +85,21 @@ ul li {
 .FoldNodeState a:active { color: green; }
 
 .FoldButton {
-    height: 18px;
-    margin-left: 6px;
+    height: 9px;
+    padding-left: 0;
+    margin-left: 0;
+    padding-right: 6px;
+    padding-top: 4px;
+    padding-bottom: 0;
+    background-color: limegreen;
+}
+
+.UnfoldButton {
+    height: 9px;
+    padding-left: 0;
+    margin-left: 0;
+    padding-right: 6px;
+    padding-top: 4px;
+    padding-bottom: 0;
+    background-color: darkorange;
 }

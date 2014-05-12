@@ -7,7 +7,7 @@ function DefaultStrategy (maxWidth, transQueueSize) {
     var freshHistQueue = [];
 
     this.fold = function (visualNode) {
-        if(typeof visualNode != 'undefined' && visualNode !== null) {
+        if(typeof visualNode != 'undefined' && visualNode !== null && visualNode.getChildren().length != 0) {
             fillQueues(visualNode);
             makeFolded(visualNode);
         }
@@ -52,7 +52,7 @@ function DefaultStrategy (maxWidth, transQueueSize) {
         if(startNode.getParent().equals(endNode)) {
             return;
         }
-        NodeVisualizer.setEdgeFolded(startNode);
+        NodeVisualizer.setUnfoldEdge(startNode);
         var currentNode = startNode.getParent();
         while(!currentNode.equals(endNode)) {
             currentNode.setInvisible();
