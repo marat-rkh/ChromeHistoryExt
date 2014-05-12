@@ -6,6 +6,7 @@ function drawSomeTree( rawNodes ) {
        var dateBuf = null;
        roots = ForestBuilder(rawNodes);
        
+       alert(roots.length)
        for(var i = roots.length-1; i >= 0; i--) {
           
             if(dateBuf != roots[i].getDate()) {
