@@ -31,7 +31,7 @@ window.onload = function() {
    var element = document.createElement('input');
    document.body.appendChild(element);
    
-   GetRawNodes.applyFunction('', 0, 100000000000000, 1,
+   GetRawNodes.applyFunction('', 0, 100000000000000, 1000,
    drawSomeTree);                        
 };
 
