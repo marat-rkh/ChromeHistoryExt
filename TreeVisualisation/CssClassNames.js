@@ -16,5 +16,6 @@ var CssClassNames = {
     'DELIMITER_STATE' : 'DelimiterState',
     'FOLD_BUTTON' : 'FoldButton',
     'UNFOLD_BUTTON' : 'UnfoldButton',
-    'UNFOLDED_EDGE' : 'UnfoldedEdge'
+    'UNFOLDED_EDGE' : 'UnfoldedEdge',
+    'SEARCH_FIELD_CONTAINER' : 'SearchFieldContainer'
 };
