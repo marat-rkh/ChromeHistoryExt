@@ -64,9 +64,9 @@ function InterfaceBuilder() {
           
       } else {
          
-         foundIDs = []
+         foundIDs = { };
          for(var i=0; i<foundRawNodes.length; i++) {
-            foundIDs.push(foundRawNodes[i].VisitItem.visitId);
+            foundIDs[ foundRawNodes[i].VisitItem.visitId ] = true;  // use:  if( key in visitId ) { ... } 
          }
          
          this.drawForest(document.body, true);
@@ -82,9 +82,8 @@ function InterfaceBuilder() {
    }
    
    this.foundHandler = function() {
-      //alert(evt.keyCode)
-      alert("test")
-      //alert( document.getElementById('Search').value ); 
-      GetRawNodes.applyFunction('', 0, 100000000000000, 10, drawFoundForest);
+      
+      var word = document.getElementById(InterfaceBuilder.searchFieldID).value;
+      GetRawNodes.applyFunction(word, 0, 100000000000000, 10, drawFoundForest);
    }
 }

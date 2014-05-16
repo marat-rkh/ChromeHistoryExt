@@ -7,12 +7,23 @@ function TreeNode (rawNode_, parent_) {
     this.title = rawNode_.HistoryItem.title;
     this.url = rawNode_.HistoryItem.url;
     this.id = rawNode_.VisitItem.visitId;
-
+    
+    if( this.title == "") {
+      this.title = this.url;
+    }
+    
+    
     this.equals = function (treeNode) {
         return this.id === treeNode.id;
     };
-
-
+   
+    this.getName = function() {
+      if( this.title == "") {
+         return this.url;
+      } 
+      return this.title;
+    };
+    
     this.getDate = function() {
       
       floorTime = Math.floor( this.rawNode.VisitItem.visitTime );
@@ -33,7 +44,7 @@ function TreeNode (rawNode_, parent_) {
       }
       
       return day + "." + month + "." + year;
-    }
+    };
     
     
     
@@ -57,7 +68,7 @@ function TreeNode (rawNode_, parent_) {
       }
 
       return hours + ":" + minutes + ":" + seconds;
-    }
+    };
 }
 
 //function TreeNode (parent, title, url, id) {
