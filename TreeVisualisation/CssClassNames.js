@@ -17,5 +17,7 @@ var CssClassNames = {
     'FOLD_BUTTON' : 'FoldButton',
     'UNFOLD_BUTTON' : 'UnfoldButton',
     'UNFOLDED_EDGE' : 'UnfoldedEdge',
-    'SEARCH_FIELD_CONTAINER' : 'SearchFieldContainer'
+    'SEARCH_FIELD_CONTAINER' : 'SearchFieldContainer',
+    'DATE_STR' : 'DateStr',
+    'HISTORY_DIV' : 'HistoryDiv'
 };

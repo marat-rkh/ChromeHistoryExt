@@ -1,0 +1,34 @@
+.SearchFieldContainer {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    border-bottom-color: lightgray;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    left: 0;
+    right: 0;
+}
+
+.SearchFieldContainer div {
+    display: inline;
+    padding-right: 600px;
+    font-size: 1.5em;
+    font-family: 'Tangerine', serif;
+    padding-left: 57px;
+}
+
+.SearchFieldContainer input {
+    display: inline;
+}
+
+.DateStr {
+    margin-top: 50px;
+    margin-bottom: 0;
+    padding-left: 57px;
+}
+
+.HistoryDiv {
+    padding-top: 40px;
+}

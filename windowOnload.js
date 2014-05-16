@@ -2,7 +2,8 @@
 
 window.onload = function() {
     InterfaceBuilder.buildSearchForm(document.body);
-    var drawHistoryCallback = InterfaceBuilder.buildInitialHistoryArea.bind(null, document.body);
+
+    var drawHistoryCallback = InterfaceBuilder.buildHistoryArea.bind(null, document.body, false);
     GetRawNodes.applyFunction('', 0, 100000000000000, 1000, drawHistoryCallback);
 };
 

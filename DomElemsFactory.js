@@ -11,5 +11,12 @@ var DomElemsFactory = {
         unfoldButton.className = CssClassNames.FOLD_BUTTON;
         unfoldButton.onclick = TreeVisualizer.foldTreePart.bind(null, htmlNode);
         return unfoldButton;
+    },
+
+    'createDateString' : function(date) {
+        var dayStrElem = document.createElement('div');
+        dayStrElem.innerText = date;
+        dayStrElem.className = CssClassNames.DATE_STR;
+        return dayStrElem;
     }
 };

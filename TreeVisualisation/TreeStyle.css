@@ -3,7 +3,7 @@ ul li {
 }
 
 .ContainerShifted {
-    margin-left: 40px;
+    margin-left: 20px;
     padding:0;
 }
 
@@ -25,7 +25,14 @@ ul li {
     white-space: nowrap;
     width: 300px;
     vertical-align: middle;
+    font-size: 12px;
 }
+
+.NodeContent a:link { color: black; }
+.NodeContent a:visited { color: black;  }
+.NodeContent a:hover { color: black; text-decoration: underline; }
+.NodeContent a:active { color: black; }
+
 .NodeContent div {
     display: inline;
     font-size: 12px;
@@ -80,15 +87,15 @@ ul li {
     display: none;
 }
 
-.DelimiterState a:link { color: green; }
-.DelimiterState a:visited { color: green;  }
-.DelimiterState a:hover { color: green; }
-.DelimiterState a:active { color: green; }
+.DelimiterState a:link { color: black; }
+.DelimiterState a:visited { color: black;  }
+.DelimiterState a:hover { color: black; text-decoration: underline; }
+.DelimiterState a:active { color: black; }
 
-.FoldNodeState a:link { color: green; }
-.FoldNodeState a:visited { color: green; }
-.FoldNodeState a:hover { color: green; }
-.FoldNodeState a:active { color: green; }
+.FoldNodeState a:link { color: black; }
+.FoldNodeState a:visited { color: black; }
+.FoldNodeState a:hover { color: black; text-decoration: underline; }
+.FoldNodeState a:active { color: black; }
 
 .FoldButton {
     height: 9px;
@@ -108,8 +115,4 @@ ul li {
     padding-top: 4px;
     padding-bottom: 0;
     background-color: darkorange;
-}
-
-.SearchFieldContainer {
-    display: inline;
 }
