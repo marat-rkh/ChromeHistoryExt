@@ -1,56 +1,90 @@
-var InterfaceBuilder = {
-    'searchFieldID' : 'SearchField',
-    'buildSearchForm' : function (parentDomElement) {
-        var titleText = document.createElement('div');
-        titleText.innerText = 'History';
-
+function InterfaceBuilder() {
+    
+    this.searchFieldID = 'SearchField';
+    
+    this.buildSearchForm = function (parentDomElement) {
         var inputText = document.createElement('input');
         inputText.type = 'text';
         inputText.id = InterfaceBuilder.searchFieldID;
-//        inputText.className = CssClassNames.
 
         var searchButton = document.createElement('input');
         searchButton.type = 'button';
         searchButton.value = 'Search';
-        searchButton.onclick = handleSearchAction;
+        searchButton.onclick = this.foundHandler;//handleSearchAction;
 
         var searchFieldContainer = document.createElement('div');
         searchFieldContainer.className = CssClassNames.SEARCH_FIELD_CONTAINER;
-        searchFieldContainer.appendChild(titleText);
         searchFieldContainer.appendChild(inputText);
         searchFieldContainer.appendChild(searchButton);
         parentDomElement.appendChild(searchFieldContainer);
-    },
+    }
 
-    'historyContainerID' : 'HistoryContainer',
-    "buildHistoryArea" : function(parentDomElement, isSearched, rawNodes) {
+
+    var roots = null;
+    
+    buildInitialHistoryArea = function(parentDomElement, rawNodes) {
+      
+        roots = ForestBuilder(rawNodes);      
+        this.drawForest(parentDomElement, false);
+    }
+     
+     
+    drawForest = function(parentDomElement, flagFoundStrategy) {
+    
         var historyContainer = document.createElement('div');
-        historyContainer.id = InterfaceBuilder.historyContainerID;
-        historyContainer.className = CssClassNames.HISTORY_DIV;
         var dateBuf = null;
-        var roots = ForestBuilder(rawNodes);
-
+        
         for(var i = roots.length-1; i >= 0; i--) {
             if(dateBuf != roots[i].getDate()) {
                 dateBuf = roots[i].getDate();
-                var dayStrElem = DomElemsFactory.createDateString(dateBuf);
+                var dayStrElem = document.createElement('div');
+                dayStrElem.innerText = dateBuf;
                 historyContainer.appendChild(dayStrElem);
             }
 
-            var foldStrategy;
-            if(isSearched) {
-                foldStrategy = null; // SearchStrategy must be here
+            var strategy = null;
+            if( flagFoundStrategy == true) {
+               //var strategy = new FoundStrategy(foundIDs); 
+               strategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
             } else {
-                foldStrategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
+               strategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
             }
-            var visualTree = TreeVisualizer.buildTree(roots[i], foldStrategy);
+            
+            var visualTree = TreeVisualizer.buildTree(roots[i], strategy);
             historyContainer.appendChild(visualTree);
         }
         parentDomElement.appendChild(historyContainer);
-    },
-
-    'removeHistoryArea' : function(parentDomElement) {
-        var historyContainer = document.getElementById(InterfaceBuilder.historyContainerID);
-        parentDomElement.removeChild(historyContainer);
+    } 
+   
+   
+    drawFoundForest = function(foundRawNodes) {
+   
+      if( this.roots == null ) {
+         alert("error");
+          
+      } else {
+         
+         foundIDs = []
+         for(var i=0; i<foundRawNodes.length; i++) {
+            foundIDs.push(foundRawNodes[i].VisitItem.visitId);
+         }
+         
+         this.drawForest(document.body, true);
+      }
     }
-};
+   
+
+
+   // this.apply(foundString, startTime, lastTime, countItems)
+   this.start = function(parentDomElement) {
+         var drawHistoryCallback = buildInitialHistoryArea.bind(null, parentDomElement);
+         GetRawNodes.applyFunction('', 0, 100000000000000, 100, drawHistoryCallback);
+   }
+   
+   this.foundHandler = function() {
+      //alert(evt.keyCode)
+      alert("test")
+      //alert( document.getElementById('Search').value ); 
+      GetRawNodes.applyFunction('', 0, 100000000000000, 10, drawFoundForest);
+   }
+}
