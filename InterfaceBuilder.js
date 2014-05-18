@@ -3,6 +3,9 @@ function InterfaceBuilder() {
     this.searchFieldID = 'SearchField';
     
     this.buildSearchForm = function (parentDomElement) {
+        var titleText = document.createElement('div');
+        titleText.innerText = 'History';
+
         var inputText = document.createElement('input');
         inputText.type = 'text';
         inputText.id = InterfaceBuilder.searchFieldID;
@@ -14,11 +17,13 @@ function InterfaceBuilder() {
 
         var searchFieldContainer = document.createElement('div');
         searchFieldContainer.className = CssClassNames.SEARCH_FIELD_CONTAINER;
+        searchFieldContainer.appendChild(titleText);
         searchFieldContainer.appendChild(inputText);
         searchFieldContainer.appendChild(searchButton);
         parentDomElement.appendChild(searchFieldContainer);
     }
 
+    this.historyContainerID = 'HistoryContainer';
 
     var roots = null;
     
@@ -32,13 +37,14 @@ function InterfaceBuilder() {
     drawForest = function(parentDomElement, flagFoundStrategy) {
     
         var historyContainer = document.createElement('div');
+        historyContainer.id = InterfaceBuilder.historyContainerID;
+        historyContainer.className = CssClassNames.HISTORY_DIV;
         var dateBuf = null;
         
         for(var i = roots.length-1; i >= 0; i--) {
             if(dateBuf != roots[i].getDate()) {
                 dateBuf = roots[i].getDate();
-                var dayStrElem = document.createElement('div');
-                dayStrElem.innerText = dateBuf;
+                var dayStrElem = DomElemsFactory.createDateString(dateBuf);
                 historyContainer.appendChild(dayStrElem);
             }
 

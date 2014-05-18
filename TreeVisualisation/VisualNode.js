@@ -55,6 +55,11 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
         }
         return CssClassNames.SIMPLE_NODE;
     };
+
+    this.getId = function() {
+        return this.getHtml().className;
+    };
+
 //    this.getEdgeType = function() {
 //        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE)) {
 //            return CssClassNames.SIMPLE_EDGE;
