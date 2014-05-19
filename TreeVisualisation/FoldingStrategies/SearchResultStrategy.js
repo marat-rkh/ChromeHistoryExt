@@ -6,12 +6,30 @@ function SearchResultStrategy (maxWidth, foundNodesIds) {
     var foundNodesIdsMap = foundNodesIds;
     var leaf;
 
-    this.fold = function (visualNode) {
+    this.fold = function(visualNode) {
         if(typeof visualNode != 'undefined' && visualNode !== null && visualNode.getChildren().length != 0) {
-            fillQueue(visualNode);
-            makeFolded(visualNode);
+            var root = visualNode;
+            var currentNode = root;
+            while(typeof currentNode.getChildren()[0] != 'undefined' && currentNode.getChildren()[0] !== null) {
+                currentNode = currentNode.getChildren()[0];
+            }
+            var leaf = currentNode;
+            if(root.equals(leaf)) {
+                root.setInvisible();
+            } else {
+                makeBranchPartInvisible(root, leaf);
+                root.setInvisible();
+                leaf.setInvisible();
+            }
         }
     };
+
+//    this.fold = function (visualNode) {
+//        if(typeof visualNode != 'undefined' && visualNode !== null && visualNode.getChildren().length != 0) {
+//            fillQueue(visualNode);
+//            makeFolded(visualNode);
+//        }
+//    };
 
     function fillQueue(root) {
         var currentNode = root.getChildren()[0];
@@ -33,7 +51,13 @@ function SearchResultStrategy (maxWidth, foundNodesIds) {
             }
             makeBranchPartInvisible(root, nodesQueue[0]);
         } else {
-            makeBranchPartInvisible(root, leaf);
+            if(root.equals(leaf)) {
+                root.setInvisible();
+            } else {
+                makeBranchPartInvisible(root, leaf);
+                leaf.setInvisible();
+                root.setInvisible();
+            }
         }
     }
 

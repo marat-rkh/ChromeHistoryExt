@@ -32,7 +32,12 @@ var TreeVisualizer = {
                 currentVisualNode = newVisualNode;
                 currentNode = currentNode.childrenArray[0];
             }
-            foldingStrategy.fold(visualRoot);
+//            if(!(foldingStrategy instanceof SearchResultStrategy)) {
+                foldingStrategy.fold(visualRoot);
+//            } else {
+//                var curEl = visualRoot.getContent().children[2];
+//                console.log(curEl.innerHTML);
+//            }
 
             treeContainer.appendChild(visualRoot.getHtml());
             return treeContainer;

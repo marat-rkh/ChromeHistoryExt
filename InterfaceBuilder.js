@@ -23,7 +23,7 @@ function InterfaceBuilder() {
         parentDomElement.appendChild(searchFieldContainer);
     }
 
-    this.historyContainerID = 'HistoryContainer';
+    InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
 
     var roots = null;
     
@@ -35,9 +35,8 @@ function InterfaceBuilder() {
      
      
     drawForest = function(parentDomElement, flagFoundStrategy) {
-    
         var historyContainer = document.createElement('div');
-        historyContainer.id = InterfaceBuilder.historyContainerID;
+        historyContainer.id = InterfaceBuilder.HISTORY_CONTAINER_ID;
         historyContainer.className = CssClassNames.HISTORY_DIV;
         var dateBuf = null;
         
@@ -50,8 +49,8 @@ function InterfaceBuilder() {
 
             var strategy = null;
             if( flagFoundStrategy == true) {
-               //var strategy = new FoundStrategy(foundIDs); 
-               strategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
+//                strategy = new SearchResultStrategy(4, foundIDs); //hardcoded values !!!!!!!!!!
+                strategy = new DefaultStrategy(4, 2);
             } else {
                strategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
             }
@@ -61,7 +60,8 @@ function InterfaceBuilder() {
         }
         parentDomElement.appendChild(historyContainer);
     } 
-   
+
+    var foundIDs = null;
    
     drawFoundForest = function(foundRawNodes) {
    
@@ -74,11 +74,11 @@ function InterfaceBuilder() {
          for(var i=0; i<foundRawNodes.length; i++) {
             foundIDs[ foundRawNodes[i].VisitItem.visitId ] = true;  // use:  if( key in visitId ) { ... } 
          }
-         
+
+          removeOldHistoryContainerIfExists(document.body);
          this.drawForest(document.body, true);
       }
     }
-   
 
 
    // this.apply(foundString, startTime, lastTime, countItems)
@@ -92,4 +92,9 @@ function InterfaceBuilder() {
       var word = document.getElementById(InterfaceBuilder.searchFieldID).value;
       GetRawNodes.applyFunction(word, 0, 100000000000000, 10, drawFoundForest);
    }
+
+    function removeOldHistoryContainerIfExists(parentDomElement) {
+        var historyDiv = document.getElementById(InterfaceBuilder.HISTORY_CONTAINER_ID);
+        parentDomElement.removeChild(historyDiv);
+    }
 }
