@@ -1,39 +1,33 @@
 
 function ForestBuilder( rawNodes ) {
-   
-   arrayTreeNodes = [];
-   roots = [];
+ 
+   var arrayTreeNodes = [];
+   var hashMapVisitIdToTreeNode = {};
+   var roots = [];
   
    for(var i=0; i < rawNodes.length; i++) {
       
-      var currentTreeNode;
-      refVisId = rawNodes[i].VisitItem.referringVisitId; 
-      var haveParent = true;
+      var currentTreeNode = null;
+      var curVisId = rawNodes[i].VisitItem.visitId; 
+      var refVisId = rawNodes[i].VisitItem.referringVisitId;      
       
-      for(var j=0; j < arrayTreeNodes.length; j++) {
-        
-         if( refVisId == arrayTreeNodes[j].rawNode.VisitItem.visitId ) {
-            
-             currentTreeNode = new TreeNode(rawNodes[i], arrayTreeNodes[j]);
-             
-             // because we must have one child 
-             if( arrayTreeNodes[j].childrenArray.length == 1 ) {
-               arrayTreeNodes[j].childrenArray[0] = currentTreeNode;        
-             } else {
-               arrayTreeNodes[j].childrenArray.push( currentTreeNode );
-             }
-             
-             haveParent = false;
-             break;                   
-         }      
+      /* предок не содержится в нашей hashmap, но есть некая информация в хранилище */
+      if( ( refVisId == 0 || !(refVisId in hashMapVisitIdToTreeNode) ) 
+            && window.localStorage.getItem(curVisId) !== null ) {   
+         refVisId = window.localStorage.getItem(curVisId);     
+      }
+         
+      if(refVisId in hashMapVisitIdToTreeNode) {   
+      
+         currentTreeNode = new TreeNode( rawNodes[i], hashMapVisitIdToTreeNode[refVisId] );           
+         hashMapVisitIdToTreeNode[refVisId].childrenArray.push( currentTreeNode );
+               
+      } else {
+         currentTreeNode = new TreeNode(rawNodes[i], null);
+         roots.push( currentTreeNode );         
       }
       
-      if(haveParent) {
-         currentTreeNode = new TreeNode(rawNodes[i], null);
-         roots.push( currentTreeNode );      
-      }   
-      
-      arrayTreeNodes.push( currentTreeNode );              
+      hashMapVisitIdToTreeNode[curVisId] = currentTreeNode;                            
    }
    
    return roots;   
