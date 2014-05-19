@@ -1,6 +1,8 @@
 function InterfaceBuilder() {
     
     this.searchFieldID = 'SearchField';
+    this.firstTimeFieldID = 'firstTime';
+    this.lastTimeFieldID = 'lastTime';
     
     this.buildSearchForm = function (parentDomElement) {
         var titleText = document.createElement('div');
