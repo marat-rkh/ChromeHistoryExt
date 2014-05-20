@@ -10,6 +10,11 @@
     "history"
   ],
   
+  "background": {
+    "scripts": ["navigationsListener.js"],
+    "persistent": true
+  },
+  
   "chrome_url_overrides" : {
     "history": "main.html"
   }
