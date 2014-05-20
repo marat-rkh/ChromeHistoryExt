@@ -1,6 +1,8 @@
 function InterfaceBuilder() {
     
     this.searchFieldID = 'SearchField';
+    this.firstTimeFieldID = 'firstTime';
+    this.lastTimeFieldID = 'lastTime';
     
     this.buildSearchForm = function (parentDomElement) {
         var titleText = document.createElement('div');
@@ -84,13 +86,17 @@ function InterfaceBuilder() {
    // this.apply(foundString, startTime, lastTime, countItems)
    this.start = function(parentDomElement) {
          var drawHistoryCallback = buildInitialHistoryArea.bind(null, parentDomElement);
-         GetRawNodes.applyFunction('', 0, 100000000000000, 100, drawHistoryCallback);
+         var today = new Date();
+         var weekMilSeconds = 7*24*60*60*1000;
+         GetRawNodes.applyFunction('', today.getTime() - weekMilSeconds, today.getTime(), 0, drawHistoryCallback);
    }
    
    this.foundHandler = function() {
       
       var word = document.getElementById(InterfaceBuilder.searchFieldID).value;
-      GetRawNodes.applyFunction(word, 0, 100000000000000, 10, drawFoundForest);
+      var today = new Date();
+      var weekMilSeconds = 7*24*60*60*1000;
+      GetRawNodes.applyFunction(word, today.getTime() - weekMilSeconds, today.getTime(), 0, drawFoundForest);
    }
 
     function removeOldHistoryContainerIfExists(parentDomElement) {
