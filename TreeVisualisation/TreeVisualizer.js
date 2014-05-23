@@ -3,27 +3,11 @@
 //static class
 var TreeVisualizer = {
     'buildTree' : function (treeRoot, foldingStrategy) {
-//        var treeEventsHandler = createEventsHandler();
-//        var treeContainer = createVisualTree(treeRoot, foldingStrategy);
-//        treeEventsHandler.appendChild(treeContainer);
-//        return treeEventsHandler;
-        return createVisualTree(treeRoot, foldingStrategy);
-
-//        function createEventsHandler () {
-//            var treeEventsHandler = document.createElement('div');
-//            treeEventsHandler.onclick = unfoldEventHandler;
-//            return treeEventsHandler;
-//        }
-
-        function createVisualTree (treeRoot, foldingStrategy) {
-            var treeContainer = document.createElement('ul');
-
-            var visualRoot = BFSTraverse(treeRoot);
+        var treeContainer = document.createElement('ul');
+        var visualRoot = BFSTraverse(treeRoot);
 //                foldingStrategy.fold(visualRoot);
-
-            treeContainer.appendChild(visualRoot.getHtml());
-            return treeContainer;
-        }
+        treeContainer.appendChild(visualRoot.getHtml());
+        return treeContainer;
 
         function oldLinearVisTreeBuild(treeRoot) {
             var visualRoot = NodeVisualizer.createRoot(treeRoot, [], true);
