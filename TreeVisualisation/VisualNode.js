@@ -31,6 +31,11 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     this.getHtml = function () {
         return htmlNode;
     };
+    
+    this.getLIChildren = function() {
+      return getChildrenContainer().children;  
+    };
+    
     this.getChildren = function () {
         var childrenInHtml = getChildrenContainer().children;
         var visualChildren = [];
@@ -131,6 +136,8 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     function getContent() {
         return htmlNode.children[1];
     }
+    
+    this.getChildrenContainer = getChildrenContainer;
     function getChildrenContainer() {
         return htmlNode.children[2];
     }

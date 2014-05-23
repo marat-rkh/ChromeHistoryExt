@@ -36,6 +36,7 @@ var TreeVisualizer = {
             while(usualQueue.length > 0) {
                 var currentUsualNode = usualQueue.shift();
                 var currentVisualNode = visualQueue.shift();
+                
                 for(var i = 0; i < currentUsualNode.childrenArray.length; ++i) {
                     var newVisualChild;
                     if(isTransNode(currentUsualNode.childrenArray[i])) {
@@ -43,10 +44,17 @@ var TreeVisualizer = {
                     } else {
                         newVisualChild = NodeVisualizer.createSimpleNode(currentUsualNode.childrenArray[i], [], true);
                     }
+                    
                     currentVisualNode.addChild(newVisualChild);
                     usualQueue.push(currentUsualNode.childrenArray[i]);
                     visualQueue.push(newVisualChild);
                 }
+                
+                var liChildren = currentVisualNode.getLIChildren();
+                for(var i=0; i < liChildren.length - 1; i++) {
+                  CssUtils.addCssClass( liChildren[i] , ' ' + CssClassNames.LEFT_VERT_LINE);
+                }             
+                 
             }
             return visualRoot;
         }

@@ -27,5 +27,7 @@ var CssClassNames = {
     'DATE_STR' : 'DateStr',
     'HISTORY_DIV' : 'HistoryDiv',
 
-    'EMPHASISED_LINK' : 'EmphasisedLink'
+    'EMPHASISED_LINK' : 'EmphasisedLink',
+    
+    'LEFT_VERT_LINE' : 'LeftVertLine'
 };

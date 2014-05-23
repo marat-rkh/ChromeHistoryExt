@@ -2,12 +2,21 @@ ul li {
     list-style-type: none;
 }
 
+.LeftVertLine {
+    background-image: url(Pics/vertLine.ico);
+    background-position : top left;
+    background-repeat : repeat-y;  
+}
+
 .ContainerShifted {
     margin-left: 20px;
     padding:0;
 }
 
 .ContainerNotShifted {
+
+    background-image: url(Pics/simpleEdge.ico);
+    background-repeat : no-repeat;
     margin-left: 0;
     padding:0;
 }
@@ -119,4 +128,4 @@ ul li {
 
 .EmphasisedLink {
     text-decoration: underline;
-}
+}}
