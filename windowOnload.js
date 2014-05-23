@@ -3,7 +3,8 @@
 window.onload = function() {
 
     var interfaceBuilder = new InterfaceBuilder(); 
-    interfaceBuilder.buildSearchForm(document.body);
+    //interfaceBuilder.buildSearchForm(document.body);
+    interfaceBuilder.deleteAllForm(document.body);
     interfaceBuilder.start(document.body);
     //var drawHistoryCallback = InterfaceBuilder.buildInitialHistoryArea.bind(null, document.body);
     //GetRawNodes.applyFunction('', 0, 100000000000000, 1000, drawHistoryCallback);

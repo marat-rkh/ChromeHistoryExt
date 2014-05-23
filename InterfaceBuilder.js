@@ -1,8 +1,7 @@
 function InterfaceBuilder() {
     
     this.searchFieldID = 'SearchField';
-    this.firstTimeFieldID = 'firstTime';
-    this.lastTimeFieldID = 'lastTime';
+    this.deleteAllID = 'DeleteAll';
     
     this.buildSearchForm = function (parentDomElement) {
         var titleText = document.createElement('div');
@@ -23,6 +22,24 @@ function InterfaceBuilder() {
         searchFieldContainer.appendChild(inputText);
         searchFieldContainer.appendChild(searchButton);
         parentDomElement.appendChild(searchFieldContainer);
+    }
+    
+    
+    this.deleteAllForm = function (parentDomElement) {
+       
+        var deleteButton = document.createElement('input');
+        deleteButton.type = 'button';
+        deleteButton.value = 'Delete all history';
+        deleteButton.onclick = this.deleteHandler;//handleSearchAction;
+
+        var deleteContainer = document.createElement('div');
+        deleteContainer.appendChild(deleteButton);
+        parentDomElement.appendChild(deleteContainer);
+    }
+    
+     this.deleteHandler = function() {
+      chrome.history.deleteAll(function(){});  
+      window.localStorage.clear();
     }
 
     InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
