@@ -19,5 +19,6 @@ var CssClassNames = {
     'UNFOLDED_EDGE' : 'UnfoldedEdge',
     'SEARCH_FIELD_CONTAINER' : 'SearchFieldContainer',
     'DATE_STR' : 'DateStr',
-    'HISTORY_DIV' : 'HistoryDiv'
+    'HISTORY_DIV' : 'HistoryDiv',
+    'LEFT_VERT_LINE' : 'LeftVertLine'
 };
