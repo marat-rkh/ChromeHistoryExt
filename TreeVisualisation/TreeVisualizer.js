@@ -75,30 +75,6 @@ var TreeVisualizer = {
         }
     },
 
-//    'unfoldTreeOld' : function (htmlNode) {
-//        var node = NodeVisualizer.fromHtml(htmlNode);
-//        NodeVisualizer.setSimpleEdge(node);
-//        node.setDelimiterState();
-//        var currentNode = node.getParent();
-//        var prevNode = node;
-//        while(!currentNode.isVisible()) {
-//            makeSubtreeVisible(currentNode, prevNode);
-//            NodeVisualizer.setFoldEdge(currentNode);
-//            prevNode = currentNode;
-//            currentNode = currentNode.getParent();
-//        }
-//        currentNode.setFoldNodeState();
-//
-//        function makeSubtreeVisible(root, childToSkip) {
-//            for(var i = 0; i < root.getChildren().length; ++i) {
-//                if(childToSkip == null || !root.getChildren()[i].equals(childToSkip)) {
-//                    makeSubtreeVisible(root.getChildren()[i], null);
-//                }
-//            }
-//            root.setVisible();
-//        }
-//    },
-
     'unfoldTreePart' : function (htmlNode) {
         var node = NodeVisualizer.fromHtml(htmlNode);
         NodeVisualizer.setSimpleEdge(node);
