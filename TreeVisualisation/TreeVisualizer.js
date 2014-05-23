@@ -18,12 +18,20 @@ var TreeVisualizer = {
         function createVisualTree (treeRoot, foldingStrategy) {
             var treeContainer = document.createElement('ul');
 
+            var visualRoot = BFSTraverse(treeRoot);
+//                foldingStrategy.fold(visualRoot);
+
+            treeContainer.appendChild(visualRoot.getHtml());
+            return treeContainer;
+        }
+
+        function oldLinearVisTreeBuild(treeRoot) {
             var visualRoot = NodeVisualizer.createRoot(treeRoot, [], true);
             var currentVisualNode = visualRoot;
             var currentNode = treeRoot.childrenArray[0];
-            while(typeof currentNode != 'undefined' && currentNode !== null) {
+            while (typeof currentNode != 'undefined' && currentNode !== null) {
                 var newVisualNode;
-                if(isTransNode(currentNode)) {
+                if (isTransNode(currentNode)) {
                     newVisualNode = NodeVisualizer.createTransNode(currentNode, [], true);
                 } else {
                     newVisualNode = NodeVisualizer.createSimpleNode(currentNode, [], true);
@@ -32,15 +40,31 @@ var TreeVisualizer = {
                 currentVisualNode = newVisualNode;
                 currentNode = currentNode.childrenArray[0];
             }
-//            if(!(foldingStrategy instanceof SearchResultStrategy)) {
-                foldingStrategy.fold(visualRoot);
-//            } else {
-//                var curEl = visualRoot.getContent().children[2];
-//                console.log(curEl.innerHTML);
-//            }
+            return visualRoot;
+        }
 
-            treeContainer.appendChild(visualRoot.getHtml());
-            return treeContainer;
+        function BFSTraverse(treeRoot) {
+            var usualQueue = [];
+            var visualQueue = [];
+            usualQueue.push(treeRoot);
+            var visualRoot = NodeVisualizer.createRoot(treeRoot, [], true);
+            visualQueue.push(visualRoot);
+            while(usualQueue.length > 0) {
+                var currentUsualNode = usualQueue.shift();
+                var currentVisualNode = visualQueue.shift();
+                for(var i = 0; i < currentUsualNode.childrenArray.length; ++i) {
+                    var newVisualChild;
+                    if(isTransNode(currentUsualNode.childrenArray[i])) {
+                        newVisualChild = NodeVisualizer.createTransNode(currentUsualNode.childrenArray[i], [], true);
+                    } else {
+                        newVisualChild = NodeVisualizer.createSimpleNode(currentUsualNode.childrenArray[i], [], true);
+                    }
+                    currentVisualNode.addChild(newVisualChild);
+                    usualQueue.push(currentUsualNode.childrenArray[i]);
+                    visualQueue.push(newVisualChild);
+                }
+            }
+            return visualRoot;
         }
 
         function isTransNode(usualNode) {
