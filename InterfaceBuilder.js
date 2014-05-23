@@ -25,16 +25,38 @@ function InterfaceBuilder() {
     }
     
     
-    this.deleteAllForm = function (parentDomElement) {
-       
+    this.buildTitleForm = function (parentDomElement) {
+        
+        
+        var titleText = document.createElement('div');
+        titleText.innerText = 'History';
+        
+        var inputText = document.createElement('input');
+        inputText.type = 'text';
+        inputText.id = InterfaceBuilder.searchFieldID;
+
+        var searchButton = document.createElement('input');
+        searchButton.type = 'button';
+        searchButton.value = 'Search';
+        searchButton.onclick = this.foundHandler;
+        
         var deleteButton = document.createElement('input');
         deleteButton.type = 'button';
         deleteButton.value = 'Delete all history';
-        deleteButton.onclick = this.deleteHandler;//handleSearchAction;
-
-        var deleteContainer = document.createElement('div');
-        deleteContainer.appendChild(deleteButton);
-        parentDomElement.appendChild(deleteContainer);
+        deleteButton.onclick = this.deleteHandler;
+        
+        
+        
+        var titleContainer = document.createElement('div');
+        titleContainer.className = CssClassNames.SEARCH_FIELD_CONTAINER;
+        titleContainer.appendChild(titleText);
+        
+        titleContainer.appendChild(inputText);
+        titleContainer.appendChild(searchButton);
+        
+        titleContainer.appendChild(deleteButton);
+        
+        parentDomElement.appendChild(titleContainer);
     }
     
      this.deleteHandler = function() {
