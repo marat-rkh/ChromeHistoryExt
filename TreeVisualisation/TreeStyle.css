@@ -23,7 +23,7 @@ ul li {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    width: 300px;
+    width: 60px;
     vertical-align: middle;
     font-size: 12px;
 }
@@ -115,4 +115,8 @@ ul li {
     padding-top: 4px;
     padding-bottom: 0;
     background-color: darkorange;
+}
+
+.EmphasisedLink {
+    text-decoration: underline;
 }

@@ -90,10 +90,10 @@ function InterfaceBuilder() {
 
             var strategy = null;
             if( flagFoundStrategy == true) {
-//                strategy = new SearchResultStrategy(4, foundIDs); //hardcoded values !!!!!!!!!!
-                strategy = new DefaultStrategy(4, 2);
+//                strategy = new DefFoldStrategy(2, defFoldPredicate);
+                strategy = new DefFoldStrategy(2, searchResFoldPredicate.bind(null, foundIDs));
             } else {
-               strategy = new DefaultStrategy(4, 2); //hardcoded values !!!!!!!!!!
+                strategy = new DefFoldStrategy(2, defFoldPredicate); //hardcoded values !!!!!!!!!!
             }
             
             var visualTree = TreeVisualizer.buildTree(roots[i], strategy);

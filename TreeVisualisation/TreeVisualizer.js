@@ -5,7 +5,7 @@ var TreeVisualizer = {
     'buildTree' : function (treeRoot, foldingStrategy) {
         var treeContainer = document.createElement('ul');
         var visualRoot = BFSTraverse(treeRoot);
-//                foldingStrategy.fold(visualRoot);
+        foldingStrategy.fold(visualRoot, null, 0);
         treeContainer.appendChild(visualRoot.getHtml());
         return treeContainer;
 
@@ -66,6 +66,30 @@ var TreeVisualizer = {
             return hrefElem;
         }
     },
+
+//    'unfoldTreeOld' : function (htmlNode) {
+//        var node = NodeVisualizer.fromHtml(htmlNode);
+//        NodeVisualizer.setSimpleEdge(node);
+//        node.setDelimiterState();
+//        var currentNode = node.getParent();
+//        var prevNode = node;
+//        while(!currentNode.isVisible()) {
+//            makeSubtreeVisible(currentNode, prevNode);
+//            NodeVisualizer.setFoldEdge(currentNode);
+//            prevNode = currentNode;
+//            currentNode = currentNode.getParent();
+//        }
+//        currentNode.setFoldNodeState();
+//
+//        function makeSubtreeVisible(root, childToSkip) {
+//            for(var i = 0; i < root.getChildren().length; ++i) {
+//                if(childToSkip == null || !root.getChildren()[i].equals(childToSkip)) {
+//                    makeSubtreeVisible(root.getChildren()[i], null);
+//                }
+//            }
+//            root.setVisible();
+//        }
+//    },
 
     'unfoldTreePart' : function (htmlNode) {
         var node = NodeVisualizer.fromHtml(htmlNode);

@@ -60,61 +60,48 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
         return this.getHtml().className;
     };
 
-//    this.getEdgeType = function() {
-//        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE)) {
-//            return CssClassNames.SIMPLE_EDGE;
-//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE)) {
-//            return CssClassNames.SIMPLE_INVISIBLE_EDGE;
-//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_EDGE)) {
-//            return CssClassNames.FOLDED_EDGE;
-//        } else if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.FOLDED_INVISIBLE_EDGE)) {
-//            return CssClassNames.FOLDED_INVISIBLE_EDGE;
-//        }
-//        return null;
-//    };
+    this.getAElem = function() {
+        var contentChildren = this.getContent().children;
+        for(var i = 0; i < contentChildren.length; ++i) {
+            if(contentChildren[i].tagName === "A") {
+                return contentChildren[i];
+            }
+        }
+        return null;
+    };
 
     this.addChild = function (child) {
         getChildrenContainer().appendChild(child.getHtml());
     };
 
     this.setVisible = function() {
-        var classToReplace = CssClassNames.INVISIBLE_CONTENT + "|" + CssClassNames.VISIBLE_CONTENT;
-        CssUtils.changeCssClass(this.getContent(), classToReplace, CssClassNames.VISIBLE_CONTENT);
-        classToReplace = CssClassNames.CONTAINER_SHIFTED + "|" + CssClassNames.CONTAINER_NOTSHIFTED;
-        CssUtils.changeCssClass(getChildrenContainer(), classToReplace, CssClassNames.CONTAINER_SHIFTED);
-        classToReplace = CssClassNames.SIMPLE_EDGE + "|" + CssClassNames.SIMPLE_INVISIBLE_EDGE +
-                         "|" + CssClassNames.FOLDED_EDGE + "|" + CssClassNames.FOLDED_INVISIBLE_EDGE;
-        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE) ||
-           CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE))
+        CssUtils.removeCssClass(this.getContent(), CssClassNames.INVISIBLE_CONTENT);
+        CssUtils.removeCssClass(getChildrenContainer(), CssClassNames.CONTAINER_NOTSHIFTED);
+        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE))
         {
-            CssUtils.changeCssClass(getEdgePicElem(), classToReplace, CssClassNames.SIMPLE_EDGE);
+            CssUtils.removeCssClass(getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE);
         } else {
-            CssUtils.changeCssClass(getEdgePicElem(), classToReplace, CssClassNames.FOLDED_EDGE);
+            CssUtils.removeCssClass(getEdgePicElem(), CssClassNames.FOLDED_INVISIBLE_EDGE);
         }
     };
+
     this.setInvisible = function() {
-        var classToReplace = CssClassNames.INVISIBLE_CONTENT + "|" + CssClassNames.VISIBLE_CONTENT;
-        CssUtils.changeCssClass(this.getContent(), classToReplace, CssClassNames.INVISIBLE_CONTENT);
-        classToReplace = CssClassNames.CONTAINER_SHIFTED + "|" + CssClassNames.CONTAINER_NOTSHIFTED;
-        CssUtils.changeCssClass(getChildrenContainer(), classToReplace, CssClassNames.CONTAINER_NOTSHIFTED);
-        classToReplace = CssClassNames.SIMPLE_EDGE + "|" + CssClassNames.SIMPLE_INVISIBLE_EDGE +
-            "|" + CssClassNames.FOLDED_EDGE + "|" + CssClassNames.FOLDED_INVISIBLE_EDGE;
-        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE) ||
-            CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE))
+        CssUtils.addCssClass(this.getContent(), CssClassNames.INVISIBLE_CONTENT);
+        CssUtils.addCssClass(getChildrenContainer(), CssClassNames.CONTAINER_NOTSHIFTED);
+        if(CssUtils.elemHasClass(this.getEdgePicElem(), CssClassNames.SIMPLE_EDGE))
         {
-            CssUtils.changeCssClass(getEdgePicElem(), classToReplace, CssClassNames.SIMPLE_INVISIBLE_EDGE);
+            CssUtils.addCssClass(getEdgePicElem(), CssClassNames.SIMPLE_INVISIBLE_EDGE);
         } else {
-            CssUtils.changeCssClass(getEdgePicElem(), classToReplace, CssClassNames.FOLDED_INVISIBLE_EDGE);
+            CssUtils.addCssClass(getEdgePicElem(), CssClassNames.FOLDED_INVISIBLE_EDGE);
         }
     };
+
     this.isVisible = function() {
-        return CssUtils.elemHasClass(this.getContent(), CssClassNames.VISIBLE_CONTENT);
+        return !CssUtils.elemHasClass(this.getContent(), CssClassNames.INVISIBLE_CONTENT);
     };
 
     this.setFoldNodeState = function() {
-        if(!CssUtils.elemHasClass(this.getContent(), CssClassNames.FOLD_NODE_STATE)) {
-            CssUtils.addCssClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
-        }
+        CssUtils.addCssClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
     };
     this.resetFoldNodeState = function() {
         CssUtils.removeCssClass(this.getContent(), CssClassNames.FOLD_NODE_STATE);
@@ -124,9 +111,7 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
     };
 
     this.setDelimiterState = function() {
-        if(!CssUtils.elemHasClass(this.getContent(), CssClassNames.DELIMITER_STATE)) {
-            CssUtils.addCssClass(this.getContent(), CssClassNames.DELIMITER_STATE);
-        }
+        CssUtils.addCssClass(this.getContent(), CssClassNames.DELIMITER_STATE);
     };
     this.resetDelimiterState = function() {
         CssUtils.removeCssClass(this.getContent(), CssClassNames.DELIMITER_STATE);
@@ -176,47 +161,8 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
         CssUtils.addCssClass(getChildrenContainer(), CssClassNames.CONTAINER_SHIFTED);
     }
     function makeInvisible() {
+        makeVisible();
         CssUtils.addCssClass(getContent(), CssClassNames.INVISIBLE_CONTENT);
         CssUtils.addCssClass(getChildrenContainer(), CssClassNames.CONTAINER_NOTSHIFTED);
     }
 }
-
-//SimpleNode.prototype = new VisualNode();
-//SimpleNode.prototype.constructor = SimpleNode;
-//function SimpleNode(/*htmlRepr | childrenList, isVisible, content*/) {
-//    SimpleNode.cssClass = "SimpleNode";
-//
-//    //constructors
-//    if(arguments.length == 1) {
-//        VisualNode.call(this, arguments[0])
-//    }
-//    else {
-//        VisualNode.call(this, arguments[0], arguments[1], SimpleNode.cssClass);
-//        this._setContent(arguments[2]);
-//    }
-//}
-
-//FillerNode.prototype = new VisualNode();
-//FillerNode.prototype.constructor = FillerNode;
-//function FillerNode(/*htmlRepr | childrenList, isVisible*/) {
-//    var txt = "...";
-//
-//    FillerNode.cssClass = "FillerNode";
-//
-//    //constructors
-//    if(arguments.length == 1) {
-//        VisualNode.call(this, arguments[0])
-//    }
-//    else {
-//        VisualNode.call(this, arguments[0], arguments[1], FillerNode.cssClass);
-//        this._setContent(txt);
-//    }
-//}
-//
-//DelimiterNode.prototype = new VisualNode();
-//DelimiterNode.prototype.constructor = DelimiterNode;
-//function DelimiterNode (childrenList) {
-//    DelimiterNode.cssClass = 'DelimiterNode';
-//
-//    VisualNode.call(this, childrenList, false, DelimiterNode.cssClass);
-//}

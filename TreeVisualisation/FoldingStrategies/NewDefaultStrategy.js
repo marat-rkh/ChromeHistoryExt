@@ -1,6 +1,6 @@
 "use strict";
-//
-//function DefaultStrategy (maxWidth, transQueueSize) {
+
+//function NewDefaultStrategy (maxWidth, transQueueSize) {
 //    var branchMaxLength = maxWidth - 1;
 //    var mTransQueueSize = transQueueSize;
 //    var transQueue = [];
@@ -8,7 +8,7 @@
 //
 //    this.fold = function (visualNode) {
 //        if(typeof visualNode != 'undefined' && visualNode !== null && visualNode.getChildren().length != 0) {
-//            fillQueues(visualNode);
+//            newFillQueues(visualNode);
 //            makeFolded(visualNode);
 //        }
 //    };
@@ -28,6 +28,34 @@
 //            }
 //            currentNode = currentNode.getChildren()[0];
 //        }
+//    }
+//
+//    function newFillQueues(root) {
+//        var currentNode = root;
+//        while (currentNode.getChildren().length != 0) {
+//            var currentParams = getCurrentStrategyParams();
+//            for (var i = currentNode.getChildren().length - 1; i > 0; --i) {
+//                var localFoldStrategy = new NewDefaultStrategy(currentParams['restWidth'], currentParams['restTransQueueSize']);
+//                localFoldStrategy.fold(currentNode.getChildren()[i]);
+//            }
+//            currentNode = currentNode.getChildren()[0];
+//            freshHistQueue.push(currentNode);
+//            while (transQueue.length + freshHistQueue.length > branchMaxLength) {
+//                var headOfFresh = freshHistQueue.shift();
+//                if (headOfFresh.getNodeType() === CssClassNames.TRANS_NODE) {
+//                    transQueue.push(headOfFresh);
+//                    if (transQueue.length > mTransQueueSize) {
+//                        transQueue.shift();
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    function getCurrentStrategyParams() {
+//        var restWidth = Math.max(2, branchMaxLength - transQueue.length + freshHistQueue.length);
+//        var restTransQueueSize = Math.max(0, mTransQueueSize - transQueue.length);
+//        return {'restWidth' : restWidth, 'restTransQueueSize' : restTransQueueSize };
 //    }
 //
 //    function makeFolded(root) {
@@ -54,9 +82,20 @@
 //        }
 //        NodeVisualizer.setUnfoldEdge(startNode);
 //        var currentNode = startNode.getParent();
+//        var prevNode = startNode;
 //        while(!currentNode.equals(endNode)) {
-//            currentNode.setInvisible();
+//            makeSubtreeInvisible(currentNode, prevNode);
+//            prevNode = currentNode;
 //            currentNode = currentNode.getParent();
 //        }
+//    }
+//
+//    function makeSubtreeInvisible(root, childToSkip) {
+//        for(var i = 0; i < root.getChildren().length; ++i) {
+//            if(childToSkip == null || !root.getChildren()[i].equals(childToSkip)) {
+//                makeSubtreeInvisible(root.getChildren()[i], null);
+//            }
+//        }
+//        root.setInvisible();
 //    }
 //}

@@ -46,6 +46,13 @@ var NodeVisualizer = {
         clearEdgeContainer(edgePicElem);
         CssUtils.addCssClass(edgePicElem, CssClassNames.UNFOLDED_EDGE);
         edgePicElem.appendChild(DomElemsFactory.createFoldButton(visualNode.getHtml()));
+    },
+
+    'setLinkEmphasis' : function(visualNode) {
+        var aElem = visualNode.getAElem();
+        if(aElem != null) {
+            CssUtils.addCssClass(aElem, CssClassNames.EMPHASISED_LINK);
+        }
     }
 };
 
