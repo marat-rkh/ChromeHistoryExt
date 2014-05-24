@@ -38,9 +38,10 @@ var DomElemsFactory = {
         var select = document.createElement("SELECT");
         select.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_ID);
         addOption(select, "from the beginning of time", "0", true);
-        addOption(select, "last day", "1", false);
-        addOption(select, "last week", "2", false);
-        addOption(select, "last month", "3", false);
+        addOption(select, "last hour", "1", false);
+        addOption(select, "last day", "2", false);
+        addOption(select, "last week", "3", false);
+        addOption(select, "last month", "4", false);
         var divContainer = document.createElement('div');
         divContainer.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_DIV_ID);
         divContainer.appendChild(select);

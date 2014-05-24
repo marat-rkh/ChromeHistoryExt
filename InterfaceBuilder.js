@@ -49,8 +49,10 @@ function InterfaceBuilder() {
     };
 
     this.deleteHandler = function() {
-      chrome.history.deleteAll(function(){});
-      window.localStorage.clear();
+        if (confirm("Are you sure you want to delete all history?")) {
+           chrome.history.deleteAll(function(){});
+           window.localStorage.clear();
+        } 
     };
 
     var buildInitialHistoryArea = function(parentDomElement, rawNodes) {
@@ -102,15 +104,46 @@ function InterfaceBuilder() {
     this.start = function(parentDomElement) {
         var drawHistoryCallback = buildInitialHistoryArea.bind(null, parentDomElement);
         var today = new Date();
-        var weekMilSeconds = 7*24*60*60*1000;
-        GetRawNodes.applyFunction('', today.getTime() - weekMilSeconds, today.getTime(), 0, drawHistoryCallback);
+        GetRawNodes.applyFunction('', 0, today.getTime(), 0, drawHistoryCallback);
     };
 
     this.foundHandler = function() {
         var word = document.getElementById(DomElemsFactory.SEARCH_FIELD_ID).value;
-        var today = new Date();
-        var weekMilSeconds = 7*24*60*60*1000;
-        GetRawNodes.applyFunction(word, today.getTime() - weekMilSeconds, today.getTime(), 0, drawFoundForest);
+        if(word == "") {
+            removeOldHistoryContainerIfExists(document.body);
+            drawForest(document.body, false);      
+        } else {
+           var today = new Date();
+           var hourMilSeconds = 60*60*1000;
+           var weekMilSeconds = 7*24*hourMilSeconds;
+           var timePeriodMilSec =  today.getTime();
+           
+           var objSel = document.getElementById(DomElemsFactory.TIME_RANGE_SELECT_ID);
+           timePeriod = objSel.options[objSel.selectedIndex].text;
+           
+           switch (timePeriod) {
+               case "last hour":
+                  timePeriodMilSec = hourMilSeconds;
+                  break;
+               case "last day":
+                  timePeriodMilSec = 24*hourMilSeconds;
+                  break;
+               case "last week":
+                  timePeriodMilSec = weekMilSeconds;
+                  break;
+               case "last month":
+                  timePeriodMilSec = 4*weekMilSeconds;
+                  break;
+               case "from the beginning of time":
+                  timePeriodMilSec = today.getTime();
+                  break;
+               default:
+                  timePeriodMilSec = today.getTime();
+                  break;
+           }
+              
+           GetRawNodes.applyFunction(word, today.getTime() - timePeriodMilSec, today.getTime(), 0, drawFoundForest);
+        }
     };
 
     function removeOldHistoryContainerIfExists(parentDomElement) {
