@@ -110,14 +110,14 @@ function InterfaceBuilder() {
    
     drawFoundForest = function(foundRawNodes) {
    
-      if( this.roots == null ) {
+      if( roots == null ) {
          alert("error");
           
       } else {
          
          foundIDs = { };
          for(var i=0; i<foundRawNodes.length; i++) {
-            foundIDs[ foundRawNodes[i].VisitItem.visitId ] = true;  // use:  if( key in visitId ) { ... } 
+            foundIDs[ foundRawNodes[i].VisitItem.visitId ] = true;  // use:  if( key in visitIds ) { ... } 
          }
 
           removeOldHistoryContainerIfExists(document.body);
