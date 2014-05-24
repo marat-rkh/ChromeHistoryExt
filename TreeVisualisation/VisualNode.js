@@ -125,6 +125,10 @@ function VisualNode (/*htmlRepr | id, childrenList, isVisible*/) {
         return CssUtils.elemHasClass(this.getContent(), CssClassNames.DELIMITER_STATE);
     };
 
+    this.setEmphasisedLinkState = function() {
+        CssUtils.addCssClass(this.getContent(), CssClassNames.EMPHASISED_LINK);
+    };
+
     this.equals = function(otherVisualNode) {
         return this.getHtml().className === otherVisualNode.getHtml().className;
     };
