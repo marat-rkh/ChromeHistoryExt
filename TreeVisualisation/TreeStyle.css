@@ -2,10 +2,16 @@ ul li {
     list-style-type: none;
 }
 
-.LeftVertLine {
-    background-image: url(Pics/vertLine.ico);
+.SimpleVertEdge {
+    background-image: url(Pics/SimpleVertEdge.ico);
     background-position : top left;
     background-repeat : repeat-y;  
+}
+
+.FoldedVertEdge {
+    background-image: url(Pics/FoldedVertEdge.ico);
+    background-position : top left;
+    background-repeat : repeat-y;
 }
 
 .ContainerShifted {
@@ -14,9 +20,6 @@ ul li {
 }
 
 .ContainerNotShifted {
-
-    background-image: url(Pics/simpleEdge.ico);
-    background-repeat : no-repeat;
     margin-left: 0;
     padding:0;
 }
@@ -64,7 +67,7 @@ ul li {
 }
 
 .SimpleEdge {
-    background-image: url(Pics/simpleEdge.ico);
+    background-image: url(Pics/SimpleEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;
@@ -76,7 +79,7 @@ ul li {
 }
 
 .FoldedEdge {
-    background-image: url(Pics/foldedEdgeRect.ico);
+    background-image: url(Pics/FoldedEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;
@@ -84,8 +87,7 @@ ul li {
 }
 
 .UnfoldedEdge {
-    /*TODO set another icon */
-    background-image: url(Pics/simpleEdge.ico);
+    background-image: url(Pics/SimpleEdge.ico);
     background-repeat: no-repeat;
     width: 18px;
     height: 18px;
@@ -96,16 +98,6 @@ ul li {
     display: none;
 }
 
-.DelimiterState a:link { color: black; }
-.DelimiterState a:visited { color: black;  }
-.DelimiterState a:hover { color: black; text-decoration: underline; }
-.DelimiterState a:active { color: black; }
-
-.FoldNodeState a:link { color: black; }
-.FoldNodeState a:visited { color: black; }
-.FoldNodeState a:hover { color: black; text-decoration: underline; }
-.FoldNodeState a:active { color: black; }
-
 .FoldButton {
     height: 9px;
     padding-left: 0;
@@ -113,7 +105,7 @@ ul li {
     padding-right: 6px;
     padding-top: 4px;
     padding-bottom: 0;
-    background-color: limegreen;
+    background-color: darkseagreen;
 }
 
 .UnfoldButton {
@@ -126,6 +118,6 @@ ul li {
     background-color: darkorange;
 }
 
-.EmphasisedLink {
-    text-decoration: underline;
-}
+.EmphasisedLink a:link { color: orange; text-decoration: underline; }
+.EmphasisedLink a:visited { color: orange; text-decoration: underline; }
+.EmphasisedLink a:hover { color: black; text-decoration: underline; }

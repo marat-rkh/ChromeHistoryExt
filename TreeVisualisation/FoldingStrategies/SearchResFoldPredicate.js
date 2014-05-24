@@ -2,7 +2,7 @@
 
 function searchResFoldPredicate(foundNodesIDs, visualNode) {
     if(visualNode.getId() in foundNodesIDs) {
-        NodeVisualizer.setLinkEmphasis(visualNode);
+        visualNode.setEmphasisedLinkState();
         return false;
     }
     return defFoldPredicate(visualNode);

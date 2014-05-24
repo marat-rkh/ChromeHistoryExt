@@ -29,5 +29,6 @@ var CssClassNames = {
 
     'EMPHASISED_LINK' : 'EmphasisedLink',
     
-    'LEFT_VERT_LINE' : 'LeftVertLine'
+    "SIMPLE_VERT_EDGE" : 'SimpleVertEdge',
+    "FOLDED_VERT_EDGE" : 'FoldedVertEdge'
 };

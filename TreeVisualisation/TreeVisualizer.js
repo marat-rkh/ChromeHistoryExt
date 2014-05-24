@@ -50,10 +50,10 @@ var TreeVisualizer = {
                     visualQueue.push(newVisualChild);
                 }
                 
-                var liChildren = currentVisualNode.getLIChildren();
-                for(var i=0; i < liChildren.length - 1; i++) {
-                  CssUtils.addCssClass( liChildren[i] , ' ' + CssClassNames.LEFT_VERT_LINE);
-                }             
+//                var liChildren = currentVisualNode.getLIChildren();
+//                for(var i=0; i < liChildren.length - 1; i++) {
+//                  CssUtils.addCssClass( liChildren[i] , ' ' + CssClassNames.SIMPLE_VERT_EDGE);
+//                }
                  
             }
             return visualRoot;
@@ -86,12 +86,13 @@ var TreeVisualizer = {
             currentNode = currentNode.getParent();
         }
         currentNode.setFoldNodeState();
+        TreeVisualizer.setVertEdges(currentNode);
     },
 
     'foldTreePart' : function(htmlNode) {
         var current = NodeVisualizer.fromHtml(htmlNode);
-        foldUp(current.getParent());
         foldDown(current);
+        foldUp(current.getParent());
 
         function foldUp(visualNode) {
             var currentNode = visualNode;
@@ -101,6 +102,7 @@ var TreeVisualizer = {
                 currentNode = currentNode.getParent();
             }
             currentNode.resetFoldNodeState();
+            TreeVisualizer.setVertEdges(currentNode);
         }
 
         function foldDown(visualNode) {
@@ -112,6 +114,25 @@ var TreeVisualizer = {
             }
             currentNode.resetDelimiterState();
             NodeVisualizer.setUnfoldEdge(currentNode);
+        }
+    },
+
+    'setVertEdges' : function (visualNode) {
+        var visualChildren = visualNode.getChildren();
+        if(typeof visualChildren != 'undefined' && visualChildren !== null) {
+            for (var j = 0; j < visualChildren.length - 1; ++j) {
+                if (visualChildren[j].isVisible()) {
+                    setVertEdgeCssClass(visualChildren[j], CssClassNames.SIMPLE_VERT_EDGE);
+                } else {
+                    setVertEdgeCssClass(visualChildren[j], CssClassNames.FOLDED_VERT_EDGE);
+                }
+            }
+        }
+
+        function setVertEdgeCssClass(visualNode, cssClassName) {
+            CssUtils.removeCssClass(visualNode.getHtml(), CssClassNames.SIMPLE_VERT_EDGE);
+            CssUtils.removeCssClass(visualNode.getHtml(), CssClassNames.FOLDED_VERT_EDGE);
+            CssUtils.addCssClass(visualNode.getHtml(), cssClassName);
         }
     }
 };
