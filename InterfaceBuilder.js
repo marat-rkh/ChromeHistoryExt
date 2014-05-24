@@ -2,6 +2,7 @@ function InterfaceBuilder() {
     
     this.searchFieldID = 'SearchField';
     this.deleteAllID = 'DeleteAll';
+    var searchFieldHeight;
     
     this.buildSearchForm = function (parentDomElement) {
         var titleText = document.createElement('div');
@@ -57,6 +58,7 @@ function InterfaceBuilder() {
         titleContainer.appendChild(deleteButton);
         
         parentDomElement.appendChild(titleContainer);
+        searchFieldHeight = titleContainer.offsetHeight;
     }
     
      this.deleteHandler = function() {
@@ -77,6 +79,8 @@ function InterfaceBuilder() {
      
     drawForest = function(parentDomElement, flagFoundStrategy) {
         var historyContainer = document.createElement('div');
+        var histContainerHeight = window.innerHeight - searchFieldHeight - 20;
+        historyContainer.setAttribute("style","height:" + histContainerHeight + "px");
         historyContainer.id = InterfaceBuilder.HISTORY_CONTAINER_ID;
         historyContainer.className = CssClassNames.HISTORY_DIV;
         var dateBuf = null;
