@@ -1,4 +1,4 @@
-.SearchFieldContainer {
+.TitleAreaContainer {
     top: 0;
     background-color: white;
     padding-top: 40px;
@@ -8,30 +8,46 @@
     border-bottom-width: 1px;
     left: 0;
     right: 0;
+    min-width: 510px;
 }
 
-.SearchFieldContainer div {
+.TitleAreaContainer div {
     display: inline;
-    /*padding-right: 600px;*/
-    /*font-size: 1.5em;*/
-    /*font-family: 'Tangerine', serif;*/
-    /*padding-left: 57px;*/
 }
 
-.SearchFieldContainer input {
-    display: inline;
+.TitleTextDiv {
+    padding-left: 55px;
+    font-size: 1.5em;
+}
+
+.SearchRangeTextDiv {
+    padding-left: 430px;
+    font-size: 0.9em;
+}
+
+.SearchSelectorDiv {
+    padding-left: 10px;
+}
+
+.SearchFieldDiv {
+    padding-left: 40px;
+}
+
+.SearchButtonDiv {
+}
+
+.ClearButtonDiv {
+    padding-left: 75px;
 }
 
 .DateStr {
-    margin-top: 50px;
-    margin-bottom: 0;
+    /*margin-top: 50px;*/
+    /*margin-bottom: 0;*/
+    padding-top: 20px;
     padding-left: 57px;
 }
 
 .HistoryDiv {
-    /*display: block;*/
-    /*height: 100%;*/
-    /*margin: auto;*/
     overflow-x: scroll;
     white-space:nowrap;
 }

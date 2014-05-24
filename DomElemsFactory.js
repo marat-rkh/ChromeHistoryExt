@@ -23,17 +23,19 @@ var DomElemsFactory = {
     'createTitle' : function() {
         var textDiv = document.createElement('div');
         textDiv.innerText = 'History';
+        textDiv.className = CssClassNames.TITLE_TEXT_DIV;
         return textDiv;
     },
 
     'createSearchRangeText' : function() {
         var textDiv = document.createElement('div');
-        textDiv.innerText = 'Search from: ';
+        textDiv.className = CssClassNames.SEARCH_RANGE_TEXT_DIV;
+        textDiv.innerText = 'Search range: ';
         return textDiv;
     },
 
     'TIME_RANGE_SELECT_ID' : "TimeRangeSelect",
-    'TIME_RANGE_SELECT_DIV_ID' : "TimeRangeSelectDiv",
+//    'TIME_RANGE_SELECT_DIV_ID' : "TimeRangeSelectDiv",
     'createTimeRangeSelect' : function() {
         var select = document.createElement("SELECT");
         select.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_ID);
@@ -41,10 +43,7 @@ var DomElemsFactory = {
         addOption(select, "last day", "1", false);
         addOption(select, "last week", "2", false);
         addOption(select, "last month", "3", false);
-        var divContainer = document.createElement('div');
-        divContainer.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_DIV_ID);
-        divContainer.appendChild(select);
-        return divContainer;
+        return wrapInDiv(select, CssClassNames.SEARCH_SELECTOR_DIV);
 
         function addOption (selectObj, text, value, isDefaultSelected) {
             var option = document.createElement("option");
@@ -60,7 +59,9 @@ var DomElemsFactory = {
     'SEARCH_BUTTON_ID' : "SearchButton",
     'SEARCH_FIELD_ID' : "SearchField",
     'createSearchSection' : function(searchActionHandler) {
-        return {'SearchButton' : createSearchButton(), 'SearchField' : createSearchField()};
+        var searchButtonDiv = wrapInDiv(createSearchButton(), CssClassNames.SEARCH_BUTTON_DIV);
+        var searchFieldDiv = wrapInDiv(createSearchField(), CssClassNames.SEARCH_FIELD_DIV);
+        return {'SearchButton' : searchButtonDiv, 'SearchField' : searchFieldDiv};
 
         function createSearchButton() {
             var buttonSearch = document.createElement('input');
@@ -90,7 +91,7 @@ var DomElemsFactory = {
         deleteButton.type = 'button';
         deleteButton.value = 'Clear all history...';
         deleteButton.onclick = deleteActionHandler;
-        return deleteButton;
+        return wrapInDiv(deleteButton, CssClassNames.CLEAR_BUTTON_DIV);
     }
 };
 

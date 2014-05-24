@@ -23,9 +23,18 @@ var CssClassNames = {
 
     'UNFOLDED_EDGE' : 'UnfoldedEdge',
 
-    'SEARCH_FIELD_CONTAINER' : 'SearchFieldContainer',
-    'DATE_STR' : 'DateStr',
+    // title area
+    'TITLE_AREA_CONTAINER' : 'TitleAreaContainer',
+    'TITLE_TEXT_DIV' : 'TitleTextDiv',
+    'SEARCH_RANGE_TEXT_DIV' : 'SearchRangeTextDiv',
+    'SEARCH_SELECTOR_DIV' : 'SearchSelectorDiv',
+    'SEARCH_FIELD_DIV' : 'SearchFieldDiv',
+    'SEARCH_BUTTON_DIV' : 'SearchButtonDiv',
+    'CLEAR_BUTTON_DIV' : 'ClearButtonDiv',
+
+    //history area
     'HISTORY_DIV' : 'HistoryDiv',
+    'DATE_STR' : 'DateStr',
 
     'EMPHASISED_LINK' : 'EmphasisedLink',
     

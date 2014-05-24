@@ -1,6 +1,6 @@
 function InterfaceBuilder() {
     InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
-    
+
     var searchFieldHeight;
     var roots = null;
     var foundIDs = null;
@@ -34,7 +34,7 @@ function InterfaceBuilder() {
 //        deleteButton.onclick = this.deleteHandler;
 
         var titleContainer = document.createElement('div');
-        titleContainer.className = CssClassNames.SEARCH_FIELD_CONTAINER;
+        titleContainer.className = CssClassNames.TITLE_AREA_CONTAINER;
 
         titleContainer.appendChild(DomElemsFactory.createTitle());
         titleContainer.appendChild(DomElemsFactory.createSearchRangeText());
