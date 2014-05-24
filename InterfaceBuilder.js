@@ -1,48 +1,48 @@
 function InterfaceBuilder() {
-
-this.searchFieldID = 'SearchField';
-this.deleteAllID = 'DeleteAll';
-InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
+    InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
+    
     var searchFieldHeight;
     var roots = null;
     var foundIDs = null;
 
     this.buildTitleForm = function (parentDomElement) {
-        var textSearch = document.createElement('input');
-        textSearch.type = "text";
-        textSearch.id = InterfaceBuilder.searchFieldID;
+//        var textSearch = document.createElement('input');
+//        textSearch.type = "text";
+//        textSearch.id = InterfaceBuilder.searchFieldID;
+//
+//        textSearch.onkeydown = function() {
+//            if (event.keyCode == 13) {
+//                document.getElementById('btnSearch').click();
+//            }
+//        };
+//
+//        var buttonSearch = document.createElement('input');
+//        buttonSearch.type="button";
+//        buttonSearch.id = 'btnSearch';
+//        buttonSearch.value="Search";
+//        buttonSearch.onclick= this.foundHandler;
 
-        textSearch.onkeydown = function() {
-            if (event.keyCode == 13) {
-                document.getElementById('btnSearch').click();
-            }
-        };
+//        var titleText = document.createElement('div');
+//        titleText.innerText = 'History';
 
-        var buttonSearch = document.createElement('input');
-        buttonSearch.type="button";
-        buttonSearch.id = 'btnSearch';
-        buttonSearch.value="Search";
-        buttonSearch.onclick= this.foundHandler;
+//        var searchRangeText = document.createElement('div');
+//        searchRangeText.innerText = 'Search from: ';
 
-        var titleText = document.createElement('div');
-        titleText.innerText = 'History';
-
-        var searchRangeText = document.createElement('div');
-        searchRangeText.innerText = 'Search from: ';
-
-        var deleteButton = document.createElement('input');
-        deleteButton.type = 'button';
-        deleteButton.value = 'Delete all history';
-        deleteButton.onclick = this.deleteHandler;
+//        var deleteButton = document.createElement('input');
+//        deleteButton.type = 'button';
+//        deleteButton.value = 'Delete all history';
+//        deleteButton.onclick = this.deleteHandler;
 
         var titleContainer = document.createElement('div');
         titleContainer.className = CssClassNames.SEARCH_FIELD_CONTAINER;
 
-        titleContainer.appendChild(titleText);
-        titleContainer.appendChild(textSearch);
-        titleContainer.appendChild(buttonSearch);
-
-        titleContainer.appendChild(deleteButton);
+        titleContainer.appendChild(DomElemsFactory.createTitle());
+        titleContainer.appendChild(DomElemsFactory.createSearchRangeText());
+        titleContainer.appendChild(DomElemsFactory.createTimeRangeSelect());
+        var searchSection = DomElemsFactory.createSearchSection(this.foundHandler.bind(this));
+        titleContainer.appendChild(searchSection["SearchField"]);
+        titleContainer.appendChild(searchSection["SearchButton"]);
+        titleContainer.appendChild(DomElemsFactory.createClearHistoryButton(this.deleteHandler.bind(this)));
 
         parentDomElement.appendChild(titleContainer);
         searchFieldHeight = titleContainer.offsetHeight;
@@ -107,7 +107,7 @@ InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
     };
 
     this.foundHandler = function() {
-        var word = document.getElementById(InterfaceBuilder.searchFieldID).value;
+        var word = document.getElementById(DomElemsFactory.SEARCH_FIELD_ID).value;
         var today = new Date();
         var weekMilSeconds = 7*24*60*60*1000;
         GetRawNodes.applyFunction(word, today.getTime() - weekMilSeconds, today.getTime(), 0, drawFoundForest);
