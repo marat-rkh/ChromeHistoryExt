@@ -24,6 +24,7 @@ function ForestBuilder( rawNodes ) {
       var curVisId = rawNodes[i].VisitItem.visitId; 
       var refVisId = window.localStorage.getItem(curVisId);
       
+      
       if( rawNodes[i].VisitItem.transition == 'reload' &&  
           ( window.localStorage.getItem(curVisId) !== null &&
             window.localStorage.getItem(curVisId) !== "null")) {
@@ -33,6 +34,18 @@ function ForestBuilder( rawNodes ) {
          var parentIdForReloadItems = findParentIdForReloadItems(curVisId);
          visitIdToTreeNodeMap[parentIdForReloadItems].rawNode.VisitItem.visitTime = time;
          continue;
+      }
+      
+      
+      if( rawNodes[i].VisitItem.transition == 'typed' ||
+          rawNodes[i].VisitItem.transition == 'generated' ||
+          rawNodes[i].VisitItem.transition == 'auto_bookmark') {
+         
+         currentTreeNode = new TreeNode(rawNodes[i], null);
+         roots.push( currentTreeNode );
+         visitIdToTreeNodeMap[curVisId] = currentTreeNode;
+         
+         continue;     
       }
       
       if( window.localStorage.getItem(curVisId) == null || window.localStorage.getItem(curVisId) == "null" ) {   
