@@ -39,11 +39,10 @@ var DomElemsFactory = {
     'createTimeRangeSelect' : function() {
         var select = document.createElement("SELECT");
         select.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_ID);
-        addOption(select, "from the beginning of time", "0", true);
+        addOption(select, "last month", "0", false);
         addOption(select, "last hour", "1", false);
         addOption(select, "last day", "2", false);
         addOption(select, "last week", "3", false);
-        addOption(select, "last month", "4", false);
         return wrapInDiv(select, CssClassNames.SEARCH_SELECTOR_DIV);
 
         function addOption (selectObj, text, value, isDefaultSelected) {

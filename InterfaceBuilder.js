@@ -89,7 +89,7 @@ function InterfaceBuilder() {
            var today = new Date();
            var hourMilSeconds = 60*60*1000;
            var weekMilSeconds = 7*24*hourMilSeconds;
-           var timePeriodMilSec =  today.getTime();
+           var timePeriodMilSec =  4*weekMilSeconds;
            
            var objSel = document.getElementById(DomElemsFactory.TIME_RANGE_SELECT_ID);
            timePeriod = objSel.options[objSel.selectedIndex].text;
@@ -107,11 +107,7 @@ function InterfaceBuilder() {
                case "last month":
                   timePeriodMilSec = 4*weekMilSeconds;
                   break;
-               case "from the beginning of time":
-                  timePeriodMilSec = today.getTime();
-                  break;
                default:
-                  timePeriodMilSec = today.getTime();
                   break;
            }
               
