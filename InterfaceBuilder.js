@@ -6,33 +6,6 @@ function InterfaceBuilder() {
     var foundIDs = null;
 
     this.buildTitleForm = function (parentDomElement) {
-//        var textSearch = document.createElement('input');
-//        textSearch.type = "text";
-//        textSearch.id = InterfaceBuilder.searchFieldID;
-//
-//        textSearch.onkeydown = function() {
-//            if (event.keyCode == 13) {
-//                document.getElementById('btnSearch').click();
-//            }
-//        };
-//
-//        var buttonSearch = document.createElement('input');
-//        buttonSearch.type="button";
-//        buttonSearch.id = 'btnSearch';
-//        buttonSearch.value="Search";
-//        buttonSearch.onclick= this.foundHandler;
-
-//        var titleText = document.createElement('div');
-//        titleText.innerText = 'History';
-
-//        var searchRangeText = document.createElement('div');
-//        searchRangeText.innerText = 'Search from: ';
-
-//        var deleteButton = document.createElement('input');
-//        deleteButton.type = 'button';
-//        deleteButton.value = 'Delete all history';
-//        deleteButton.onclick = this.deleteHandler;
-
         var titleContainer = document.createElement('div');
         titleContainer.className = CssClassNames.TITLE_AREA_CONTAINER;
 

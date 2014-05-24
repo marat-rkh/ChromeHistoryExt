@@ -95,13 +95,15 @@ var TreeVisualizer = {
 
     'setVertEdges' : function (visualNode) {
         var visualChildren = visualNode.getChildren();
-        if(typeof visualChildren != 'undefined' && visualChildren !== null) {
-            for (var j = 0; j < visualChildren.length - 1; ++j) {
-                if (visualChildren[j].isVisible()) {
+        if(typeof visualChildren != 'undefined' && visualChildren !== null && visualChildren.length > 0) {
+            var prevSibling = visualChildren[visualChildren.length - 1];
+            for (var j = visualChildren.length - 2; j >= 0; --j) {
+                if (prevSibling.isVisible()) {
                     setVertEdgeCssClass(visualChildren[j], CssClassNames.SIMPLE_VERT_EDGE);
                 } else {
                     setVertEdgeCssClass(visualChildren[j], CssClassNames.FOLDED_VERT_EDGE);
                 }
+                prevSibling = visualChildren[j];
             }
         }
 
