@@ -5,4 +5,9 @@ window.onload = function() {
     //interfaceBuilder.buildSearchForm(document.body);
     interfaceBuilder.buildTitleForm(document.body);
     interfaceBuilder.start(document.body);
+//    document.body.onresize = windowResizeHandler;
 };
+
+function windowResizeHandler() {
+    InterfaceBuilder.resizeHistoryContainer();
+}

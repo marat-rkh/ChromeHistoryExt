@@ -1,5 +1,4 @@
 .SearchFieldContainer {
-    /*position: fixed;*/
     top: 0;
     background-color: white;
     padding-top: 40px;
@@ -30,8 +29,9 @@
 }
 
 .HistoryDiv {
-    /*padding-top: 40px;*/
+    /*display: block;*/
+    /*height: 100%;*/
+    /*margin: auto;*/
     overflow-x: scroll;
     white-space:nowrap;
-    /*height: 300px;*/
 }

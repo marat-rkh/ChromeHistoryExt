@@ -76,7 +76,7 @@ function InterfaceBuilder() {
         this.drawForest(parentDomElement, false);
     }
      
-     
+
     drawForest = function(parentDomElement, flagFoundStrategy) {
         var historyContainer = document.createElement('div');
         var histContainerHeight = window.innerHeight - searchFieldHeight - 20;

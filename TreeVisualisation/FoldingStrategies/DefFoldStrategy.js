@@ -15,7 +15,7 @@ function DefFoldStrategy (foldingLimit, isFoldablePred) {
                 for(var i = 0; i < visualNode.getChildren().length; ++i) {
                     this.fold(visualNode.getChildren()[i], lastNotFolded, toFoldNum);
                 }
-                setVertEdges(visualNode);
+                TreeVisualizer.setVertEdges(visualNode);
             } else {
                 ++toFoldNum;
                 this.fold(visualNode.getChildren()[0], lastNotFolded, toFoldNum);
@@ -32,17 +32,6 @@ function DefFoldStrategy (foldingLimit, isFoldablePred) {
         while(!currentNode.equals(endNode)) {
             currentNode.setInvisible();
             currentNode = currentNode.getParent();
-        }
-    }
-
-    function setVertEdges(visualNode) {
-        var visualChildren = visualNode.getChildren();
-        for (var j = 0; j < visualChildren.length - 1; ++j) {
-            if (visualChildren[j].isVisible()) {
-                CssUtils.addCssClass(visualChildren[j].getHtml(), CssClassNames.SIMPLE_VERT_EDGE);
-            } else {
-                CssUtils.addCssClass(visualChildren[j].getHtml(), CssClassNames.FOLDED_VERT_EDGE);
-            }
         }
     }
 }
