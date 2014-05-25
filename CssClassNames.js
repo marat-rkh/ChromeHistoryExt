@@ -39,5 +39,9 @@ var CssClassNames = {
     'EMPHASISED_LINK' : 'EmphasisedLink',
     
     "SIMPLE_VERT_EDGE" : 'SimpleVertEdge',
-    "FOLDED_VERT_EDGE" : 'FoldedVertEdge'
+    "FOLDED_VERT_EDGE" : 'FoldedVertEdge',
+
+    'PAGE_WRAPPER_DIV' : 'PageWrapperDiv',
+
+    'LOADING_IMG_DIV' : 'LoadingImgDiv'
 };

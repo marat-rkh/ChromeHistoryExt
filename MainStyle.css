@@ -1,3 +1,10 @@
+.PageWrapperDiv {
+    /*width: 1300px;*/
+    /*height: 100%;*/
+    margin: 0 auto;
+    overflow: hidden;
+}
+
 .TitleAreaContainer {
     top: 0;
     background-color: white;
@@ -8,7 +15,8 @@
     border-bottom-width: 1px;
     left: 0;
     right: 0;
-    min-width: 510px;
+    height: 40px;
+    display: block;
 }
 
 .TitleAreaContainer div {
@@ -38,6 +46,21 @@
 
 .ClearButtonDiv {
     padding-left: 75px;
+}
+
+.LoadingImgDiv {
+    text-align: center;
+}
+
+.LoadingImgDiv div {
+    padding-top: 30px;
+    color: gray;
+    font-size: 0.9em;
+}
+
+.LoadingImgDiv img {
+    padding-top: 10px;
+    /*content: url(loading.gif);*/
 }
 
 .DateStr {

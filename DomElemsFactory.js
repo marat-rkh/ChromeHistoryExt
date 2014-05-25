@@ -35,7 +35,6 @@ var DomElemsFactory = {
     },
 
     'TIME_RANGE_SELECT_ID' : "TimeRangeSelect",
-//    'TIME_RANGE_SELECT_DIV_ID' : "TimeRangeSelectDiv",
     'createTimeRangeSelect' : function() {
         var select = document.createElement("SELECT");
         select.setAttribute("id", DomElemsFactory.TIME_RANGE_SELECT_ID);
@@ -92,6 +91,24 @@ var DomElemsFactory = {
         deleteButton.value = 'Clear all history...';
         deleteButton.onclick = deleteActionHandler;
         return wrapInDiv(deleteButton, CssClassNames.CLEAR_BUTTON_DIV);
+    },
+
+    'createPageWrapper' : function() {
+        var pageWrapper = document.createElement('div');
+        pageWrapper.className = CssClassNames.PAGE_WRAPPER_DIV;
+        pageWrapper.setAttribute("style", "width:" + screen.width.toString() + "px");
+//        .setAttribute("style","height:" + histContainerHeight + "px");
+        return pageWrapper;
+    },
+
+    'LOADING_IMG_ID' : 'LoadingImgDivId',
+    'createLoadingGif' : function() {
+        var textDiv = document.createElement('div');
+        textDiv.innerText = "Loading ...";
+        var loadingElemContainer = wrapInDiv(textDiv, CssClassNames.LOADING_IMG_DIV);
+        loadingElemContainer.id = DomElemsFactory.LOADING_IMG_ID;
+        loadingElemContainer.appendChild(document.createElement('img'));
+        return loadingElemContainer;
     }
 };
 

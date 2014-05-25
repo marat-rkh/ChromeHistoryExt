@@ -1,11 +1,16 @@
 function InterfaceBuilder() {
     InterfaceBuilder.HISTORY_CONTAINER_ID = 'HistoryContainer';
 
-    var searchFieldHeight;
+    InterfaceBuilder.SEARCH_FIELD_HEIGHT = 101;
     var roots = null;
     var foundIDs = null;
+    var wrapperElem = null;
 
-    this.buildTitleForm = function (parentDomElement) {
+    this.setInterfaceWrapper = function(wrapper) {
+        wrapperElem = wrapper;
+    };
+
+    this.buildTitleForm = function () {
         var titleContainer = document.createElement('div');
         titleContainer.className = CssClassNames.TITLE_AREA_CONTAINER;
 
@@ -17,8 +22,7 @@ function InterfaceBuilder() {
         titleContainer.appendChild(searchSection["SearchButton"]);
         titleContainer.appendChild(DomElemsFactory.createClearHistoryButton(this.deleteHandler.bind(this)));
 
-        parentDomElement.appendChild(titleContainer);
-        searchFieldHeight = titleContainer.offsetHeight;
+        wrapperElem.appendChild(titleContainer);
     };
 
     this.deleteHandler = function() {
@@ -28,14 +32,14 @@ function InterfaceBuilder() {
         } 
     };
 
-    var buildInitialHistoryArea = function(parentDomElement, rawNodes) {
+    var buildInitialHistoryArea = function(rawNodes) {
         roots = ForestBuilder(rawNodes);
-        drawForest(parentDomElement, false);
+        drawForest(false);
     };
 
-    var drawForest = function(parentDomElement, flagFoundStrategy) {
+    var drawForest = function(flagFoundStrategy) {
         var historyContainer = document.createElement('div');
-        var histContainerHeight = window.innerHeight - searchFieldHeight - 20;
+        var histContainerHeight = window.innerHeight - InterfaceBuilder.SEARCH_FIELD_HEIGHT;
         historyContainer.setAttribute("style","height:" + histContainerHeight + "px");
         historyContainer.id = InterfaceBuilder.HISTORY_CONTAINER_ID;
         historyContainer.className = CssClassNames.HISTORY_DIV;
@@ -52,13 +56,17 @@ function InterfaceBuilder() {
             if( flagFoundStrategy == true) {
                 strategy = new DefFoldStrategy(2, searchResFoldPredicate.bind(null, foundIDs));
             } else {
-                strategy = new DefFoldStrategy(2, defFoldPredicate); //hardcoded values !!!!!!!!!!
+                strategy = new DefFoldStrategy(2, defFoldPredicate);
             }
 
             var visualTree = TreeVisualizer.buildTree(roots[i], strategy);
             historyContainer.appendChild(visualTree);
         }
-        parentDomElement.appendChild(historyContainer);
+        var loadingElem = document.getElementById(DomElemsFactory.LOADING_IMG_ID);
+        if(loadingElem != null) {
+            wrapperElem.removeChild(loadingElem);
+        }
+        wrapperElem.appendChild(historyContainer);
     };
 
     var drawFoundForest = function(foundRawNodes) {
@@ -69,22 +77,21 @@ function InterfaceBuilder() {
             for(var i=0; i< foundRawNodes.length; i++) {
             foundIDs[ foundRawNodes[i].VisitItem.visitId ] = true;  // use:  if( key in visitIds ) { ... }
         }
-            removeOldHistoryContainerIfExists(document.body);
-            drawForest(document.body, true);
+            removeOldHistoryContainerIfExists();
+            drawForest(true);
         }
     };
 
-    this.start = function(parentDomElement) {
-        var drawHistoryCallback = buildInitialHistoryArea.bind(null, parentDomElement);
+    this.start = function() {
         var today = new Date();
-        GetRawNodes.applyFunction('', 0, today.getTime(), 0, drawHistoryCallback);
+        GetRawNodes.applyFunction('', 0, today.getTime(), 0, buildInitialHistoryArea);
     };
 
     this.foundHandler = function() {
         var word = document.getElementById(DomElemsFactory.SEARCH_FIELD_ID).value;
         if(word == "") {
-            removeOldHistoryContainerIfExists(document.body);
-            drawForest(document.body, false);      
+            removeOldHistoryContainerIfExists();
+            drawForest(false);
         } else {
            var today = new Date();
            var hourMilSeconds = 60*60*1000;
@@ -115,8 +122,8 @@ function InterfaceBuilder() {
         }
     };
 
-    function removeOldHistoryContainerIfExists(parentDomElement) {
+    function removeOldHistoryContainerIfExists() {
         var historyDiv = document.getElementById(InterfaceBuilder.HISTORY_CONTAINER_ID);
-        parentDomElement.removeChild(historyDiv);
+        wrapperElem.removeChild(historyDiv);
     }
 }
